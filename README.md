@@ -15,9 +15,11 @@ To help a user of Raspberry Pi computer to visualise the current status of the m
 ## How to download, compile and execute in Raspian (Debian) 
 
 ```shell
-git clone https://github.com/fogleman/Minecraft.git
-cd sources 
-python testtermopi.py
+# git clone https://github.com/fogleman/Minecraft.git
+
+# cd sources 
+
+# python testtermopi.py
 >>>>>BEGING THE RESOURCES OF THE PI<<<<<
 
 PiID: SEG_1
