@@ -147,7 +147,3 @@ def container_info_ori(pi_status):
             memUsage = f.readline()
         putgetfunc.put_container(pi_status, container['Id'], cpuUsage, memUsage, container['Names'], container['Status'], container['Image'])
     return pi_status
-
-
-
-
