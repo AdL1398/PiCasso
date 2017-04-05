@@ -30,12 +30,11 @@ python_version  : Python 2.7.12
 
 
 import time
-import pidict 
-from docker import Client
+import docker
+#from docker import Client
 import os
-from docker.utils import create_host_config
 
-client = Client(base_url='unix://var/run/docker.sock',version='auto')
+client = docker.APIClient(base_url='unix://var/run/docker.sock',version='auto')
 #client = docker.from_env(assert_hostname=False)
 pulling_flag = False
 path = "SEG_repository"
@@ -81,17 +80,6 @@ def load_image(image_name):
     client.load_image(f)
     pulling_flag = False
     print 'image loaded'
-
-# def container_infoOld():
-#     for container in client.containers():
-#         #print container["Image"], container["Status"], container["Id"], container["Names"]
-#         info['Id'] = container['Id']
-#         info['Names'] = container["Names"]
-#         info['Status'] = container["Status"]
-#         info['Image'] = container["Image"]
-#         container_list.append(info)
-#     return container_list
-
 
 
 def get_container_info(pi_status):
@@ -162,13 +150,4 @@ def container_info_ori(pi_status):
 
 
 
-# def container_memUsage(Id):
-#     with open('/sys/fs/cgroup/memory/docker/' + Id + '/memory.usage_in_bytes', 'r') as f:
-#         memUsage = f.readline()
-#     return memUsage
-#
-# def container_cpuUsage(Id):
-#     with open('/sys/fs/cgroup/cpuacct/docker/' + Id + '/cpuacct.usage', 'r') as f:
-#         cpuUsage = f.readline()
-#     return cpuUsage
 

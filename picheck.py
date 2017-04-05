@@ -3,7 +3,7 @@ title           : picheckp.py
 description     : Collect the resource usage (mem, cpu load and cpu usage of a Pi 
                 :  Returns the values as strings.
                 :   
-author          : Adisorn 
+author          : Adisorn Lertsinsrubtavee 
                 : Carlos Molina Jimenez
                 : 27 Feb 2017
                 : Version 1.0
@@ -41,13 +41,6 @@ def pi_cpuLoad():
     loadavg = f.read()
     loadavg_str=  loadavg.replace("\n", "")
     return (str(loadavg_str)) #Carlos changed the return to str 4Mar2017
-
-
-
-def pi_cpuLoad_ori_by_Adisorn():
-    f = os.popen('cat /proc/loadavg | awk {print $2}') # Thi line is guggy. Carlos 4Mar2017
-    loadavg = f.read()
-    return loadavg
 
 
 """
