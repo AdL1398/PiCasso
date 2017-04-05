@@ -74,4 +74,8 @@ len first l= 0len second l= 0
 ```
 
 
+- To delete a container 
+```shell
+# ... 
+```
 
