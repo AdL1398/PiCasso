@@ -33,6 +33,7 @@ import time
 import docker
 #from docker import Client
 import os
+import subprocess
 
 client = docker.APIClient(base_url='unix://var/run/docker.sock',version='auto')
 #client = docker.from_env(assert_hostname=False)
@@ -91,14 +92,13 @@ def get_container_info(pi_status):
     """
     pi_status['containers']=[]
     for container in client.containers():
-        with open('/sys/fs/cgroup/cpuacct/docker/' + container['Id'] + '/cpuacct.usage', 'r') as f:
-            cpuUsage = f.readline()
-            cpuUsage_str= cpuUsage.replace("\n", "")
+        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $2}\' " % (container['Id'], container['Id'])
+        cpuUsage = system_call(cmd)
+        cpuUsage_str = cpuUsage.replace("\n", "")
 
-        with open('/sys/fs/cgroup/memory/docker/' + container['Id'] + '/memory.usage_in_bytes', 'r') as f:
-            memUsage = f.readline()
-            memUsage_str= memUsage.replace("\n", "")
-
+        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $8}\' " % (container['Id'], container['Id'])
+        memUsage = system_call(cmd)
+        memUsage_str = memUsage.replace("\n", "")
         dict_port_host= container['Ports'][0]
         p_int=dict_port_host['PublicPort'] 
         port_host_str= str(p_int).replace("\n", "")
@@ -116,6 +116,14 @@ def get_container_info(pi_status):
     return (len((pi_status['containers'])))
 
 
+def system_call(command):
+    # for Python below 2.7
+    #p = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+    #return p.stdout.read()
+
+    # work with Python 2.7 up
+    p = subprocess.check_output(command, shell=True)
+    return p
 
 def container_info(pi_status):
     pi_status['containers']=[]
@@ -138,12 +146,3 @@ def container_info(pi_status):
         print("\n\n++++++ conta lst len= " + str (len(pi_status['containers'])) + "after append +++++")
     return (len((pi_status['containers'])))
 
-
-def container_info_ori(pi_status):
-    for container in client.containers():
-        with open('/sys/fs/cgroup/cpuacct/docker/' + container['Id'] + '/cpuacct.usage', 'r') as f:
-            cpuUsage = f.readline()
-        with open('/sys/fs/cgroup/memory/docker/' + container['Id'] + '/memory.usage_in_bytes', 'r') as f:
-            memUsage = f.readline()
-        putgetfunc.put_container(pi_status, container['Id'], cpuUsage, memUsage, container['Names'], container['Status'], container['Image'])
-    return pi_status

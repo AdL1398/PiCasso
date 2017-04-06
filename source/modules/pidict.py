@@ -439,7 +439,3 @@ def test_json_retrieval(pi_stat, pi_stat_loaded):
        return "true"
     else:
        return "false"
-
-
-
-
