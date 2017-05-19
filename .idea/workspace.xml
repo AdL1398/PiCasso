@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f3a8c36-9c34-408a-8fc8-e44a199dc784" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/source/modules/network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/PIstatus/pi_status.json" afterPath="$PROJECT_DIR$/source/PIstatus/pi_status.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/modules/dockerctl.py" afterPath="$PROJECT_DIR$/source/modules/dockerctl.py" />
-    </list>
+    <list default="true" id="3f3a8c36-9c34-408a-8fc8-e44a199dc784" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,10 +27,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="network.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/modules/network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-322">
+            <state relative-caret-position="-208">
               <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
               <folding />
             </state>
@@ -96,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testtermopi.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="testtermopi.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/testtermopi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1178">
-              <caret line="31" column="21" lean-forward="false" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
+            <state relative-caret-position="552">
+              <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -757,14 +752,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/testtermopi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1178">
-          <caret line="31" column="21" lean-forward="false" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/modules/pidict.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13718">
@@ -813,8 +800,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/modules/network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-322">
+        <state relative-caret-position="-208">
           <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/testtermopi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="35" />
           <folding />
         </state>
       </provider>
