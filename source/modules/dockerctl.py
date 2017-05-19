@@ -1,11 +1,10 @@
 #!/usr/bin/env python2.7
 
 """
-title           : pidict.py
+title           : dockerctl.py
 description     : includes 
-                  a) functions to collect the current status of the resources
-                     consumed by containers instantiated in a Raspberry Pi
-                     computer. 
+                  a) a module to control docker containers
+                  b) collect information of running containers
 source          :  
 author          : Adisorn Lertsinsrubtavee 
 date            : 15 Feb 2017
