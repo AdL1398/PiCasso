@@ -1,8 +1,8 @@
 """
-title           : network.py
+title           : consumer.py
 description     : includes
-                  a) functions to communicate with other nodes
-                  b) follow publish/subscribe model of ICN
+                  a) express Interest message
+                  b) process Data message
 source          :
 author          : Adisorn Lertsinsrubtavee
 date            : 19 May 2017
@@ -30,13 +30,13 @@ from pyndn.security import KeyChain
 from pyndn import Interest
 import dockerctl
 
-class Network(object):
-    def __init__(self):
+class Consumer(object):
+    def __init__(self,name):
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
-        self.nameInput = '/ndn/test'
+        self.nameInput = name
 
     def run(self):
 
@@ -93,13 +93,13 @@ class Network(object):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 
     #nameInput  = raw_input('Enter Name of Content ')
-    try:
+    #try:
 
-        Consumer().run()
+        #Consumer().run()
 
-    except:
-        traceback.print_exc(file=sys.stdout)
-        sys.exit(1)
+    #except:
+        #traceback.print_exc(file=sys.stdout)
+        #sys.exit(1)

@@ -1,5 +1,0 @@
-import network
-
-print "Test"
-
-

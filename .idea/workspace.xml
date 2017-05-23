@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="3f3a8c36-9c34-408a-8fc8-e44a199dc784" name="Default" comment="" />
+=======
     <list default="true" id="3f3a8c36-9c34-408a-8fc8-e44a199dc784" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
+>>>>>>> 9618092def2ae3121bc9e459b0de4cf0c224ca1e
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,11 +36,17 @@
       <file leaf-file-name="network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/modules/network.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="-208">
+              <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+              <folding />
+=======
             <state relative-caret-position="510">
               <caret line="34" column="33" lean-forward="false" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
               <folding>
                 <element signature="e#515#525#0" expanded="true" />
               </folding>
+>>>>>>> 9618092def2ae3121bc9e459b0de4cf0c224ca1e
             </state>
           </provider>
         </entry>
@@ -73,6 +83,39 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file leaf-file-name="pidict.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/modules/pidict.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="13718">
+              <caret line="361" column="5" lean-forward="false" selection-start-line="361" selection-start-column="4" selection-end-line="361" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="picheck.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/modules/picheck.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1064">
+              <caret line="28" column="68" lean-forward="false" selection-start-line="28" selection-start-column="58" selection-end-line="28" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testtermopi.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/testtermopi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="552">
+              <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+=======
+>>>>>>> 9618092def2ae3121bc9e459b0de4cf0c224ca1e
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -763,6 +806,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/modules/pidict.py">
+<<<<<<< HEAD
+=======
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5415">
           <caret line="361" column="5" lean-forward="false" selection-start-line="361" selection-start-column="4" selection-end-line="361" selection-end-column="5" />
@@ -770,6 +815,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/test.py">
+>>>>>>> 9618092def2ae3121bc9e459b0de4cf0c224ca1e
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
@@ -817,16 +863,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/test_network.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="-208">
+          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+=======
         <state relative-caret-position="75">
+<<<<<<< HEAD
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+=======
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+>>>>>>> 9618092def2ae3121bc9e459b0de4cf0c224ca1e
+>>>>>>> 816efc77a40c48ba8b393e783f8aaf8a3fd2b17b
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/testtermopi.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="59">
           <caret line="5" column="66" lean-forward="false" selection-start-line="5" selection-start-column="66" selection-end-line="5" selection-end-column="66" />
+=======
+        <state relative-caret-position="552">
+          <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="35" />
+>>>>>>> 816efc77a40c48ba8b393e783f8aaf8a3fd2b17b
           <folding />
         </state>
       </provider>
