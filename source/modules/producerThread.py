@@ -1,6 +1,5 @@
 from producer import Producer
 import threading
-import time
 
 class producerThread (threading.Thread):
    def __init__(self, threadID, name, counter, namePrefix, DS):
@@ -16,5 +15,4 @@ class producerThread (threading.Thread):
       producer = Producer(self.namePrefix, self.DS)
       producer.run()
       print "Exiting " + self.name
-
 

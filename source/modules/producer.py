@@ -60,15 +60,30 @@ class Producer(object):
         print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         pprint(self.DataStore)
         print "Interest Name: %s" %interestName
+        content_type = self.DataStore[str(interestName)]['Type']
+        print "content type: %s" %content_type
         content = self.DataStore[str(interestName)]['Content']
-        print "Content: %s" %content
-        data.setContent(content)
-        hourMilliseconds = 600 * 1000
-        data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
-        self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
-        face.send(data.wireEncode().toBuffer())
-        print "Replied to Interest name: %s" % interestName.toUri()
-        print "Replied with Data name: %s" % interestName.toUri()
+        if content_type == 'text':
+            print "attach text to Data message"
+            print "Content: %s" %content
+            data.setContent(content)
+            hourMilliseconds = 600 * 1000
+            data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
+            self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
+            face.send(data.wireEncode().toBuffer())
+            print "Replied to Interest name: %s" % interestName.toUri()
+            print "Replied with Data name: %s" % interestName.toUri()
+
+        elif content_type == 'file':
+            print "chop file to small piece of chunks"
+            pass
+        elif content_type == 'operation':
+            print "call other functions to get Data"
+            pass
+
+        else:
+            print "content type mismatch"
+            pass
 
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
