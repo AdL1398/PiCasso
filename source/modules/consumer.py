@@ -28,7 +28,7 @@ from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pyndn import Interest
-import dockerctl
+
 
 class Consumer(object):
     def __init__(self,name):

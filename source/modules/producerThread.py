@@ -3,15 +3,17 @@ import threading
 import time
 
 class producerThread (threading.Thread):
-   def __init__(self, threadID, name, counter, namePrefix):
+   def __init__(self, threadID, name, counter, namePrefix, DS):
       threading.Thread.__init__(self)
       self.threadID = threadID
       self.name = name
       self.counter = counter
       self.namePrefix = namePrefix
+      self.DS = DS
+
    def run(self):
       print "Starting " + self.name
-      producer = Producer(self.namePrefix)
+      producer = Producer(self.namePrefix, self.DS)
       producer.run()
       print "Exiting " + self.name
 

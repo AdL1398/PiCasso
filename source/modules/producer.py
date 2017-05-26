@@ -27,20 +27,18 @@ from pyndn import Name
 from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
-
+from pprint import pprint
 
 class Producer(object):
-    def __init__(self, namePrefix):
+    def __init__(self, namePrefix, DS):
         self.configPrefix = Name(namePrefix)
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
-
-        self.DataStore = {
-                            '/ndn/test1': 'Producer-Data1',
-                            '/ndn/test2': 'Producer-Data2'
-                         }
+        self.DataStore = DS.readDataStore_json()
+        #print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        #pprint(self.DataStore)
 
     def run(self):
         try:
@@ -59,7 +57,11 @@ class Producer(object):
 
         interestName = interest.getName()
         data = Data(interestName)
-        content = "Producer-Data"
+        print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        pprint(self.DataStore)
+        print "Interest Name: %s" %interestName
+        content = self.DataStore[str(interestName)]['Content']
+        print "Content: %s" %content
         data.setContent(content)
         hourMilliseconds = 600 * 1000
         data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
@@ -71,11 +73,3 @@ class Producer(object):
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True
-
-    def putDataStore (self, name):
-        print "Register content name: %s" %name
-
-
-
-
-
