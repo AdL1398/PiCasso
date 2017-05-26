@@ -27,7 +27,7 @@ python_version  : Python 2.7.12
 ====================================================
 """
 
-from termopi import termopi # class with dictionary data structure
+from source.modules.termopi import termopi # class with dictionary data structure
 # Threshold of cpu exhaustion
 cpuUsageThreshold= 50
 cpuLoadThreshold= 3
