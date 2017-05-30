@@ -28,6 +28,8 @@ from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pyndn import Interest
+import dockerctl
+from enumerate_publisher import EnumeratePublisher
 
 
 class Consumer(object):
@@ -37,6 +39,8 @@ class Consumer(object):
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
         self.nameInput = name
+        self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
+        self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
 
     def run(self):
 
@@ -65,14 +69,28 @@ class Consumer(object):
         self.face.expressInterest(interest, self._onData, self._onTimeout)
         print "Sent Interest for %s" % uri
 
-
     def _onData(self, interest, data):
-        payload = data.getContent()
         dataName = data.getName()
-        dataName_size = dataName.size()
+        data_name_components = dataName.toUri().split("/")
+        if "monitoring" in data_name_components:
+            nodeName = 'SEG_1'
+            #nodeName = data_name_components[data_name_components.index("service_monitoring") + 1]
+            #timeStamp = data_name_components[data_name_components.index("service_monitoring") + 2]
+            #print 'Receive Data from %s' % nodeName
+            #print 'Timestamp %s' % timeStamp
+            rel_path = "Monitoring_manager"
+            abs_path = os.path.join(self.script_dir, rel_path)
+            print "path of monitoring Pi:%s" %abs_path
+            fileName = 'status'+'-'+nodeName+'.json'
+            print "Monitoring File name:%s" %fileName
+            self._extractData_message(abs_path, fileName, data)
 
-        print "Received data name: ", dataName.toUri()
-        print "Received data: ", payload.toRawStr()
+        else:
+            print "function is not yet ready"
+
+        currentInterestName = interest.getName()
+        # Delete the Interest name from outstanding INTEREST dict as reply DATA has been received.
+        del self.outstanding[currentInterestName.toUri()]
         self.isDone = True
 
 
@@ -92,6 +110,39 @@ class Consumer(object):
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True
+
+    def _extractData_message(self, path, fileName, data):
+        payload = data.getContent()
+        dataName = data.getName()
+        dataName_size = dataName.size()
+        print "Extracting Data message name: ", dataName.toUri()
+        #print "Received data: ", payload.toRawStr()
+        if not os.path.exists(path):
+                os.makedirs(path)
+
+        with open(os.path.join(path, fileName), 'ab') as temp_file:
+            temp_file.write(payload.toRawStr())
+            # if recieved Data is a segment of the file, then need to fetch remaning segments
+            # try if segment number is existed in Data Name
+        try:
+            dataSegmentNum = (dataName.get(dataName_size - 1)).toSegment()
+            lastSegmentNum = (data.getMetaInfo().getFinalBlockId()).toNumber()
+            print "dataSegmentNum" + str(dataSegmentNum)
+            print "lastSegmentNum" + str(lastSegmentNum)
+
+            # If segment number is available and what have recieved is not the FINAL_BLOCK, then fetch the NEXT segment
+            if lastSegmentNum != dataSegmentNum:
+                interestName = dataName.getSubName(0, dataName_size - 1)
+                interestName = interestName.appendSegment(dataSegmentNum + 1)
+                ### Fix this
+                self._sendNextInterest(interestName)
+            # If segment number is available and what have recieved is the FINAL_BLOCK, then EXECUTE the configuration script
+            ### Recieve all chunks of data --> Execute it here
+            if lastSegmentNum == dataSegmentNum:
+                print "Received complete Data message: %s  " % fileName
+        except RuntimeError as e:
+            print "ERROR: %s" % e
+            self.isDone = True
 
 #if __name__ == '__main__':
 

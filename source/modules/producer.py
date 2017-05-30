@@ -97,7 +97,6 @@ class Producer(object):
                 abs_file_path = os.path.join(self.script_dir, rel_path)
                 print "File path of monitoring Pi:%s" %abs_file_path
                 self.sendingFile(abs_file_path, interest, face)
-
         else:
             print "content type is mismatch"
             pass
