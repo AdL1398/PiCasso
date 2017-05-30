@@ -28,6 +28,7 @@ from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pprint import pprint
+from termopi import termopi # class with dictionary data structure
 
 class Producer(object):
     def __init__(self, namePrefix, DS):
@@ -79,12 +80,37 @@ class Producer(object):
             pass
         elif content_type == 'function':
             print "call other functions to get Data"
-            pass
+            monitoring_agent = termopi()
+            if content == 'monitoring':
+                print "Check Pi and Containers Status"
+                monitoring_agent.prt_pi_resources()
+                print "Update json file"
+                monitoring_agent.create_jsonfile_with_pi_status()
+                try:
+            # due to overhead of NDN name and other header values; NDN header overhead + Data packet content = < maxNdnPacketSize
+            # So Here segment size is hard coded to 5000 KB.
+            # Class Enumerate publisher is used to split large files into segments and get a required segment ( segment numbers started from 0)
+                dataSegment, last_segment_num = EnumeratePublisher(jsonfileName, 8000, SegmentNum).getFileSegment()
+            # create the DATA name appending the segment number
+                dataName = dataName.appendSegment(SegmentNum)
+                data = Data(dataName)
+                data.setContent(dataSegment)
+            # set the final block ID to the last segment number
+                last_segment = (Name.Component()).fromNumber(last_segment_num)
+                data.getMetaInfo().setFinalBlockId(last_segment)
+                hourMilliseconds = 600 * 1000
+                data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
+            # currently Data is signed from the Default Identitiy certificate
+                self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
+            # Sending Data message
+                face.send(data.wireEncode().toBuffer())
+                print "Replied to Interest name: %s" % interestName.toUri()
+                print "Replied with Data name: %s" % dataName.toUri()
+                pass
 
         else:
-            print "content type mismatch"
+            print "content type is mismatch"
             pass
-
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True

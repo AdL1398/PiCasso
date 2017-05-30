@@ -104,8 +104,6 @@ class termopi():
         dockerctl.get_container_info(self.pi_status)
 
         pidict.create_jsonFile(self.pi_status, fname)
- 
-
 
     def check_pi_resource_status(self,cpuUsageThreshold):
         mydedata= dedata(self.jsonpath)
@@ -120,6 +118,13 @@ class termopi():
 #       else:
 #          print ("Some resources are exahusted --deployments needed!")
 #          migration_lst= mydedata.get_migration_lst()
+
+
+    def response_interest_monitoring(self):
+        print "Check Pi and Containers Status"
+        self.prt_pi_resources()
+        print "Update json file"
+        self.create_jsonfile_with_pi_status()
 
 
 #f __name__ == '__main__':
