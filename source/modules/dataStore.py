@@ -23,7 +23,7 @@ class DataStore(object):
                             '/ndn/test1': {'Type': 'text', 'Content': 'Producer-Data1'},
                             '/ndn/test2': {'Type': 'text', 'Content': 'Producer-Data2'},
                             '/ndn/test3': {'Type': 'file', 'Content': '/home/test.img'},
-                            '/ndn/monitoring': {'Type': 'operation', 'Content': 'getPi()'},
+                            '/ndn/monitoring': {'Type': 'function', 'Content': 'getPi()'},
                   }
 
         self.fname = "DataStore.json"

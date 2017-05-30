@@ -27,7 +27,7 @@ python_version  : Python 2.7.12
 ====================================================
 """
 
-from source.modules.termopi import termopi # class with dictionary data structure
+from termopi import termopi # class with dictionary data structure
 # Threshold of cpu exhaustion
 cpuUsageThreshold= 50
 cpuLoadThreshold= 3
@@ -37,6 +37,6 @@ cpuLoadThreshold= 3
 termo= termopi()
 termo.prt_pi_resources()
 termo.create_jsonfile_with_pi_status()
-termo.check_pi_resource_status(cpuUsageThreshold)
+#termo.check_pi_resource_status(cpuUsageThreshold)
 
   

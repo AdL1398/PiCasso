@@ -7,7 +7,7 @@ DS = DataStore()
 
 ######### Adding Prefix and content in DS
 namePrefix1 = '/adisorn/file1'
-type = 'File'
+type = 'file'
 filename = '/home/adisorn/test.txt'
 DS.putDataStore(namePrefix1, type, filename)
 #print DS.table
@@ -16,7 +16,7 @@ print 'Content type: %s' %DS.getDataStore_Type(namePrefix1)
 print 'Content: %s' %DS.getDataStore_Content(namePrefix1)
 
 namePrefix2 = '/adisorn/file2'
-type = 'Text'
+type = 'text'
 filename = '/home/adisorn/test2.txt'
 DS.putDataStore(namePrefix2, type, filename)
 #print DS.table
@@ -24,6 +24,14 @@ print 'add content name: %s' %namePrefix2
 print 'Content type: %s' %DS.getDataStore_Type(namePrefix2)
 print 'Content: %s' %DS.getDataStore_Content(namePrefix2)
 
+namePrefix3 = '/picasso/monitoring/SEG_1'
+type = 'function'
+filename = '/home/adisorn/test2.txt'
+DS.putDataStore(namePrefix2, type, filename)
+#print DS.table
+print 'add content name: %s' %namePrefix2
+print 'Content type: %s' %DS.getDataStore_Type(namePrefix2)
+print 'Content: %s' %DS.getDataStore_Content(namePrefix2)
 
 DS.creaDataStore_json(DS.table)
 

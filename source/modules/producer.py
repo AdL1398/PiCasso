@@ -77,7 +77,7 @@ class Producer(object):
         elif content_type == 'file':
             print "chop file to small piece of chunks"
             pass
-        elif content_type == 'operation':
+        elif content_type == 'function':
             print "call other functions to get Data"
             pass
 
