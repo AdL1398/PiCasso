@@ -78,7 +78,7 @@ class Consumer(object):
             #timeStamp = data_name_components[data_name_components.index("service_monitoring") + 2]
             #print 'Receive Data from %s' % nodeName
             #print 'Timestamp %s' % timeStamp
-            rel_path = "Monitoring_manager"
+            rel_path = "Monitoring_DB"
             abs_path = os.path.join(self.script_dir, rel_path)
             print "path of monitoring Pi:%s" %abs_path
             fileName = 'status'+'-'+nodeName+'.json'

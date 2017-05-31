@@ -32,8 +32,6 @@ from termopi import termopi # class with dictionary data structure
 cpuUsageThreshold= 50
 cpuLoadThreshold= 3
 
-
-
 termo= termopi()
 termo.prt_pi_resources()
 termo.create_jsonfile_with_pi_status()
