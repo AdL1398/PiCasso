@@ -33,7 +33,7 @@ from enumerate_publisher import EnumeratePublisher
 
 
 class Consumer(object):
-    def __init__(self,name):
+    def __init__(self, name):
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
@@ -55,6 +55,7 @@ class Consumer(object):
         except RuntimeError as e:
             print "ERROR: %s" %  e
 
+        return True
 
     def _sendNextInterest(self, name):
         interest = Interest(name)
@@ -65,7 +66,6 @@ class Consumer(object):
 
         if uri not in self.outstanding:
             self.outstanding[uri] = 1
-
         self.face.expressInterest(interest, self._onData, self._onTimeout)
         print "Sent Interest for %s" % uri
 
@@ -73,8 +73,8 @@ class Consumer(object):
         dataName = data.getName()
         data_name_components = dataName.toUri().split("/")
         if "monitoring" in data_name_components:
-            nodeName = 'SEG_1'
-            #nodeName = data_name_components[data_name_components.index("service_monitoring") + 1]
+            #nodeName = 'SEG_1'
+            nodeName = data_name_components[data_name_components.index("monitoring") + 1]
             #timeStamp = data_name_components[data_name_components.index("service_monitoring") + 2]
             #print 'Receive Data from %s' % nodeName
             #print 'Timestamp %s' % timeStamp
@@ -140,6 +140,7 @@ class Consumer(object):
             ### Recieve all chunks of data --> Execute it here
             if lastSegmentNum == dataSegmentNum:
                 print "Received complete Data message: %s  " % fileName
+
         except RuntimeError as e:
             print "ERROR: %s" % e
             self.isDone = True

@@ -88,9 +88,9 @@ class termopi():
         pidict.prt_allResources_of_a_pi(self.pi_status)
         print(">>>>>END THE RESOURCES OF THE PI<<<<<") 
                                          
-    def create_jsonfile_with_pi_status(self):
+    def create_jsonfile_with_pi_status(self, filename):
         import os.path
-        fname= os.path.join(self.jsonpath, self.jsonfname)
+        #fname= os.path.join(self.jsonpath, self.jsonfname)
         
         pidict.put_hardResources_cpu(self.pi_status, 'A 1.2GHz 64-bit quad-core ARMv8 CPU')
         pidict.put_hardResources_mem(self.pi_status, '1 GB')
@@ -103,7 +103,7 @@ class termopi():
         pidict.put_resourceUsage_cpuUsage(self.pi_status, picheck.pi_cpuUsage())
         dockerctl.get_container_info(self.pi_status)
 
-        pidict.create_jsonFile(self.pi_status, fname)
+        pidict.create_jsonFile(self.pi_status, filename)
 
     def check_pi_resource_status(self,cpuUsageThreshold):
         mydedata= dedata(self.jsonpath)

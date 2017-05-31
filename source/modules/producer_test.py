@@ -41,9 +41,9 @@ DS.creaDataStore_json(DS.table)
 # print test[namePrefix2]['Content']
 exitFlag = 0
 print "Test Producer"
-thread1 = producerThread(1, "Thread-1", 1, namePrefix1, DS)
-thread2 = producerThread(2, "Thread-2", 2, namePrefix2, DS)
-thread3 = producerThread(3, "Thread-3", 3, namePrefix3, DS)
+thread1 = producerThread(1, "Thread-1", 'SEG_1', namePrefix1, DS)
+thread2 = producerThread(2, "Thread-2", 'SEG_1', namePrefix2, DS)
+thread3 = producerThread(3, "Thread-3", 'SEG_1', namePrefix3, DS)
 
 thread1.start()
 thread2.start()

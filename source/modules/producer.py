@@ -33,17 +33,18 @@ from termopi import termopi # class with dictionary data structure
 from enumerate_publisher import EnumeratePublisher
 
 class Producer(object):
-    def __init__(self, namePrefix, DS):
+    def __init__(self, namePrefix, DS, producerName):
         self.configPrefix = Name(namePrefix)
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
-        self.DataStore = DS.readDataStore_json()
+        #self.DataStore = DS.readDataStore_json()
+        self.DataStore = DS.table
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
         self.Datamessage_size = 8000 #8kB --> Max Size from NDN standard
-
+        self.producerName = producerName
         #print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         #pprint(self.DataStore)
 
@@ -86,16 +87,17 @@ class Producer(object):
             pass
         elif content_type == 'function':
             print "call other functions to get Data"
-            monitoring_agent = termopi()
+
             if content == 'monitoring':
                 print "Check Pi and Containers Status"
+                monitoring_agent = termopi()
                 monitoring_agent.prt_pi_resources()
                 print "Update json file"
-                monitoring_agent.create_jsonfile_with_pi_status()
-                #### Need to update file name - add PiID
-                rel_path = "PIstatus/pi_status.json"
+                filename = "piStatus"+self.producerName+".json"
+                rel_path = "PIstatus/"+filename
                 abs_file_path = os.path.join(self.script_dir, rel_path)
                 print "File path of monitoring Pi:%s" %abs_file_path
+                monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
                 self.sendingFile(abs_file_path, interest, face)
         else:
             print "content type is mismatch"
