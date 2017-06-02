@@ -81,7 +81,9 @@ class Consumer(object):
             rel_path = "Monitoring_DB"
             abs_path = os.path.join(self.script_dir, rel_path)
             print "path of monitoring Pi:%s" %abs_path
-            fileName = 'status'+'-'+nodeName+'.json'
+            f = os.popen('date +%s')
+            timestamp = f.read()
+            fileName = 'status'+'-' + nodeName + '_' + timestamp + '.json'
             print "Monitoring File name:%s" %fileName
             self._extractData_message(abs_path, fileName, data)
 

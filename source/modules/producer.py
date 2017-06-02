@@ -93,12 +93,15 @@ class Producer(object):
                 monitoring_agent = termopi()
                 monitoring_agent.prt_pi_resources()
                 print "Update json file"
-                filename = "piStatus"+self.producerName+".json"
+                f = os.popen('date +%s')
+                timestamp = f.read()
+                filename = "piStatus_"+self.producerName+".json"
                 rel_path = "PIstatus/"+filename
                 abs_file_path = os.path.join(self.script_dir, rel_path)
                 print "File path of monitoring Pi:%s" %abs_file_path
                 monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
-                self.sendingFile(abs_file_path, interest, face)
+                freshness = 10 #milli second
+                self.sendingFile(abs_file_path, interest, face, freshness)
         else:
             print "content type is mismatch"
             pass
@@ -106,7 +109,7 @@ class Producer(object):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True
 
-    def sendingFile(self, file_path, interest, face):
+    def sendingFile(self, file_path, interest, face, freshness):
         print "Sending File Function"
         interestName = interest.getName()
         interestNameSize = interestName.size()
@@ -136,8 +139,8 @@ class Producer(object):
             # set the final block ID to the last segment number
             last_segment = (Name.Component()).fromNumber(last_segment_num)
             data.getMetaInfo().setFinalBlockId(last_segment)
-            hourMilliseconds = 600 * 1000
-            data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
+            #hourMilliseconds = 600 * 1000
+            data.getMetaInfo().setFreshnessPeriod(freshness)
 
             # currently Data is signed from the Default Identitiy certificate
             self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
