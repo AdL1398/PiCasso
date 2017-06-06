@@ -93,18 +93,15 @@ class Producer(object):
                 monitoring_agent = termopi()
                 monitoring_agent.prt_pi_resources()
                 print "Update json file"
-<<<<<<< HEAD
                 filename = "piStatus"+self.producerName+".json"
                 folder_name = "PIstatus/"
                 rel_path =  os.path.join(self.script_dir, folder_name)
                 abs_file_path = os.path.join(rel_path, filename)
-=======
                 f = os.popen('date +%s')
                 timestamp = f.read()
                 filename = "piStatus_"+self.producerName+".json"
                 rel_path = "PIstatus/"+filename
                 abs_file_path = os.path.join(self.script_dir, rel_path)
->>>>>>> 08db2c97b5e14c18ccb5822161c1387686d7a1ed
                 print "File path of monitoring Pi:%s" %abs_file_path
                 monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
                 freshness = 10 #milli second
