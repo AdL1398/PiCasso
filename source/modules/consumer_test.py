@@ -9,8 +9,8 @@ print "Test Consumer"
 f = os.popen('date +%s')
 timestamp = f.read()
 print 'Timestamp %s' % timestamp
-namePrefix1 = '/picasso/monitoring/SEG_1/'+timestamp
-namePrefix2 = '/picasso/monitoring/SEG_2/'+timestamp
+namePrefix1 = '/picasso/monitoring/SEG_1/'
+namePrefix2 = '/picasso/monitoring/SEG_2/'
 
 #thread1 = consumerThread(1, "Thread-1", 1, namePrefix1)
 #thread2 = consumerThread(2, "Thread-2", 2, namePrefix2)
