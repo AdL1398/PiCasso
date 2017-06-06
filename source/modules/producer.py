@@ -94,8 +94,9 @@ class Producer(object):
                 monitoring_agent.prt_pi_resources()
                 print "Update json file"
                 filename = "piStatus"+self.producerName+".json"
-                rel_path = "PIstatus/"+filename
-                abs_file_path = os.path.join(self.script_dir, rel_path)
+                folder_name = "PIstatus/"
+                rel_path =  os.path.join(self.script_dir, folder_name)
+                abs_file_path = os.path.join(rel_path, filename)
                 print "File path of monitoring Pi:%s" %abs_file_path
                 monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
                 self.sendingFile(abs_file_path, interest, face)
