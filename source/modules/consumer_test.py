@@ -17,11 +17,11 @@ namePrefix2 = '/picasso/monitoring/SEG_2/'
 
 stopFlag = Event()
 thread1 = consumerThread(1, "Thread-1", 1, namePrefix1, stopFlag)
-thread2 = consumerThread(2, "Thread-2", 2, namePrefix2, stopFlag)
+#thread2 = consumerThread(2, "Thread-2", 2, namePrefix2, stopFlag)
 
 #thread = MyThread(stopFlag)
 thread1.start()
-thread2.start()
+#thread2.start()
 # this will stop the timer
 #stopFlag.set()
 

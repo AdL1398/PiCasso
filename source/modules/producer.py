@@ -95,14 +95,16 @@ class Producer(object):
                 print "Update json file"
                 filename = "piStatus"+self.producerName+".json"
                 folder_name = "PIstatus/"
-                rel_path =  os.path.join(self.script_dir, folder_name)
+                rel_path = os.path.join(self.script_dir, folder_name)
+                if not os.path.exists(rel_path):
+                    os.makedirs(rel_path)
                 abs_file_path = os.path.join(rel_path, filename)
                 f = os.popen('date +%s')
-                timestamp = f.read()
+                #timestamp = f.read()
                 filename = "piStatus_"+self.producerName+".json"
-                rel_path = "PIstatus/"+filename
-                abs_file_path = os.path.join(self.script_dir, rel_path)
-                print "File path of monitoring Pi:%s" %abs_file_path
+                #rel_path = "PIstatus/"+filename
+                #abs_file_path = os.path.join(self.script_dir, rel_path)
+                #print "File path of monitoring Pi:%s" %abs_file_path
                 monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
                 freshness = 10 #milli second
                 self.sendingFile(abs_file_path, interest, face, freshness)
