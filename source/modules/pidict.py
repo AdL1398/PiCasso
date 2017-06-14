@@ -64,14 +64,30 @@ def get_PiID(pi_stat):
     piID=pi_stat['PiID']
     return piID
 
-
 """
 Expects a dictionary that representes the resources of a Pi and
-the id of the Pi. Records the id in the dictionary. 
+the id of the Pi. Records the id in the dictionary.
 """
 def put_PiID(pi_stat,piID):
     pi_stat['PiID']=piID
     return
+
+
+"""
+Expects a dictionary that representes the resources of a Pi and
+the IP address of the Pi. Records the id in the dictionary.
+"""
+def put_PiIP(pi_stat,piIP):
+    pi_stat['PiIP']=piIP
+    return
+
+"""
+Expects a dictionary that representes the resources of a Pi.
+Returns the IP address of the Pi
+"""
+def get_PiIP(pi_stat):
+    piIP=pi_stat['PiIP']
+    return piIP
 
 """
 Expects a dictionary that representes the resources of a Pi.
@@ -140,6 +156,9 @@ Records the cpu usage in dictionary.
 def put_resourceUsage_cpuUsage(pi_status,cpu):
     pi_status['resourceUsage']['cpuUsage']=cpu
 
+def get_resourceUsage_cpuUsage(pi_status):
+    cpuUsage = pi_status['resourceUsage']['cpuUsage']
+    return cpuUsage
 
 """
 Expects a dictionary that representes the resource usage of a Pi
@@ -148,6 +167,9 @@ Records the cpu load in dictionary.
 def put_resourceUsage_cpuLoad(pi_status,cpuLoad):
     pi_status['resourceUsage']['cpuLoad']=cpuLoad
 
+def get_resourceUsage_cpuLoad(pi_status):
+    cpuLoad = pi_status['resourceUsage']['cpuLoad']
+    return cpuLoad
 
 """
 Expects a dictionary that representes the resource usage of a Pi
@@ -156,7 +178,9 @@ Records the memory usage in dictionary.
 def put_resourceUsage_mem(pi_status,mem):
     pi_status['resourceUsage']['memUsage']=mem
 
-
+def get_resourceUsage_memUsage(pi_status):
+    memUsage = pi_status['resourceUsage']['memUsage']
+    return memUsage
 
 
 
