@@ -16,6 +16,8 @@ def readMonitoringData(path, fname):
 def writeDB():
     data = readMonitoringData(path, fname)
     print "Data from json file: ", data
+    container_info = data['containerID']
+    print container_info
 
     json_body = [
         {
@@ -43,6 +45,9 @@ def writeDB():
                     "cpuLoad":  pidict.get_resourceUsage_cpuLoad(data),
                     "cpuUsage": pidict.get_resourceUsage_cpuUsage(data),
                     "memUsage": pidict.get_resourceUsage_memUsage(data),
+                    "image_name": "influxdb:alpine",
+                    "container_id": "b1761a9c073cec0893f7c63d0ebe06385ebc806b5b5f42458e5eb08775544669",
+                    "container_name": "/love_newton",
                     "container_status": "Up About an hour",
                     "port_host": "8086",
                     "container_cpuUsage": "0.13%",

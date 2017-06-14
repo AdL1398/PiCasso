@@ -397,7 +397,7 @@ def prt_allResources_of_a_pi(pi_status):
   
     containersLst=get_allResources_of_allContainers_of_Pi(pi_status)
     for lst in containersLst:
-        print("   containerID: "      + lst[0])
+        print("        containerID: "      + lst[0])
         print("        cpuUsage: "         + lst[1])
         print("        memUsage: "         + lst[2])
         print("        name: "             + lst[3])

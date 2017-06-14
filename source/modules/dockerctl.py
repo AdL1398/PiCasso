@@ -102,7 +102,7 @@ def get_container_info(pi_status):
         p_int=dict_port_host['PublicPort'] 
         port_host_str= str(p_int).replace("\n", "")
 
-        new_conta={
+        new_container={
                        'id':             container['Id'],
                        'cpuUsage':       cpuUsage_str,
                        'memUsage':       memUsage_str,
@@ -111,7 +111,7 @@ def get_container_info(pi_status):
                        'image':          container['Image'],    # of the list.
                        'port_host':      port_host_str,         # the client.container() returns a list of ports
                        'port_container': '80'}             # getting the first, is a tmp solution
-        pi_status['containers'].append(new_conta)
+        pi_status['containers'].append(new_container)
     return (len((pi_status['containers'])))
 
 
