@@ -7,6 +7,17 @@ import pidict
 fname = "piStatusSEG_1.json"
 path = "./PIstatus/"
 
+pi_status= {
+    'PiID': '192.0.0.1',
+    'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '1', 'disk': '32'},
+    'softResources': {'OS': 'Linux'},
+    'resourceUsage': {'cpuUsage': '30', 'cpuLoad': '70', memUsage:'20'},
+    'containers':    [{'id': '64c1f6e0e5c19f9da2', 'cpuUsage': '23', 'memUsage': '3636', 'name': 'web1','status': 'Up 39 second', 'image': 'hypriot/rpi-busybox-httpd:latest'}
+                     ]
+}
+
+
+
 def readMonitoringData(path, fname):
     json_data = path + fname
     with open(json_data) as json_infile:
