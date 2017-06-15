@@ -466,56 +466,56 @@ def test_json_retrieval(pi_stat, pi_stat_loaded):
 
 def get_conID(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList)-1:
+    if index < len(containerList):
         return containerList[index]['id']
     else:
         return "None"
 
 def get_conCpuUsage(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList)-1:
-return containerList[index]['cpuUsage']
+    if index < len(containerList):
+        return containerList[index]['cpuUsage']
     else:
         return "None"
 
 def get_conMemUsage(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList)-1:
+    if index < len(containerList):
         return containerList[index]['memUsage']
     else:
         return "None"
 
 def get_conName(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList) - 1:
+    if index < len(containerList) :
         return containerList[index]['name']
     else:
         return "None"
 
 def get_conStatus(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList) - 1:
+    if index < len(containerList) :
         return containerList[index]['status']
     else:
         return "None"
 
 def get_conImage(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList) - 1:
+    if index < len(containerList) :
         return containerList[index]['image']
     else:
         return "None"
 
 def get_conPorthost(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList) - 1:
+    if index < len(containerList) :
         return containerList[index]['port_host']
     else:
         return "None"
 
 def get_conPort(pi_status, index):
     containerList = pi_status['containers']
-    if index < len(containerList) - 1:
+    if index < len(containerList) :
         return containerList[index]['port_container']
     else:
         return "None"

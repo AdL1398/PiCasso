@@ -36,7 +36,7 @@ pi_status= {
                        'memUsage':       '3636',
                        'name':           'web1',
                        'status':         'Up 39 second',
-                       'image':          'hypriot/rpi-busybox-httpd:latest_p8080',
+                       'image':          'hypriot/rpi-busybox-httpd:latest',
                        'port_host':      '8080',
                        'port_container': '80'},
 
@@ -45,7 +45,7 @@ pi_status= {
                        'memUsage':       '3636',
                        'name':           'web1',
                        'status':         'Up 39 second',
-                       'image':          'hypriot/rpi-nano-httpd:latest_p8080',
+                       'image':          'hypriot/rpi-nano-httpd:latest',
                        'port_host':      '8081',
                        'port_container': '80'}
                       ]
@@ -57,5 +57,11 @@ pi_status= {
 #print "Pistatus_Container1: ", containerList[0]
 l = len(pi_status['containers'])
 for i in range(l):
-    print "Con%i ID: %s ", pidict.get_conID(pi_status, 0)
-    print "Con0 cpuUsage: ", pidict.get_conCpuUsage(pi_status,0)
+    print "Con %d ID: %s " % (i, pidict.get_conID(pi_status, i))
+    print "Con %d cpuUsage: %s" % (i, pidict.get_conCpuUsage(pi_status,i))
+    print "Con %d memUsage: %s" % (i, pidict.get_conMemUsage(pi_status, i))
+    print "Con %d conName:  %s" % (i, pidict.get_conName(pi_status, i))
+    print "Con %d conStatus: %s" %(i, pidict.get_conStatus(pi_status, i))
+    print "Con %d conImage: %s" % (i, pidict.get_conImage(pi_status, i))
+    print "Con %d port_host: %s" % (i, pidict.get_conPorthost(pi_status, i))
+    print "Con %d port_container: %s" % (i, pidict.get_conPort(pi_status, i))
