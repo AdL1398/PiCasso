@@ -3,84 +3,77 @@ import json
 import os.path
 import pidict
 
+fname = "./PIstatus/piStatusSEG_1.json"
 
-fname = "piStatusSEG_1.json"
-path = "./PIstatus/"
-
-pi_status= {
-    'PiID': '192.0.0.1',
-    'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '1', 'disk': '32'},
-    'softResources': {'OS': 'Linux'},
-    'resourceUsage': {'cpuUsage': '30', 'cpuLoad': '70', memUsage:'20'},
-    'containers':    [{'id': '64c1f6e0e5c19f9da2', 'cpuUsage': '23', 'memUsage': '3636', 'name': 'web1','status': 'Up 39 second', 'image': 'hypriot/rpi-busybox-httpd:latest'}
-                     ]
-}
-
-
-
-def readMonitoringData(path, fname):
-    json_data = path + fname
-    with open(json_data) as json_infile:
-        ds_loaded = json.load(json_infile)
-    return ds_loaded
-
-def writeDB():
-    data = readMonitoringData(path, fname)
-    print "Data from json file: ", data
-    container_info = data['containerID']
-    print container_info
-
+def writeToDB(data,index):
     json_body = [
         {
-            #"measurement": "cpu_load_short",
-            # "tags": {
-            #     "host": "server01",
-            #     "region": "us-west"
-            # },
-            # "time": "2009-11-10T23:00:00Z",
-            # "fields": {
-            #     "value": 0.64
-            # }
             "measurement": "pi_status",
                 "tags": {
                     "host_name": pidict.get_PiID(data),
                     "host_ip":   pidict.get_PiIP(data),
                     "hardware": "RPI-3",
                     "OS": "hypriotOS",
-                    "image_name": "influxdb:alpine",
-                    "container_id": "b1761a9c073cec0893f7c63d0ebe06385ebc806b5b5f42458e5eb08775544669",
-                    "container_name": "/love_newton"
+                    "image_name": pidict.get_conImage(data, index),
+                    "container_id": pidict.get_conID(data, index),
+                    "container_name": pidict.get_conName(data, index),
+                    "container_status": pidict.get_conStatus(data, index),
                 },
-                "time": "2009-11-10T23:00:00Z",
+                #"time": "2009-11-10T23:00:00Z",
                 "fields": {
-                    "cpuLoad":  pidict.get_resourceUsage_cpuLoad(data),
-                    "cpuUsage": pidict.get_resourceUsage_cpuUsage(data),
-                    "memUsage": pidict.get_resourceUsage_memUsage(data),
-                    "image_name": "influxdb:alpine",
-                    "container_id": "b1761a9c073cec0893f7c63d0ebe06385ebc806b5b5f42458e5eb08775544669",
-                    "container_name": "/love_newton",
-                    "container_status": "Up About an hour",
-                    "port_host": "8086",
-                    "container_cpuUsage": "0.13%",
-                    "container_memUsage": "0.18%"
+                    "cpuLoad":  float(pidict.get_resourceUsage_cpuLoad(data)),
+                    "cpuUsage": float(pidict.get_resourceUsage_cpuUsage(data)),
+                    "memUsage": float(pidict.get_resourceUsage_memUsage(data)),
+                    "port_host": int(pidict.get_conPorthost(data, index)),
+                    "port_container": int(pidict.get_conPort(data, index)),
+                    "container_cpuUsage": float(pidict.get_conCpuUsage(data, index)),
+                    "container_memUsage": float(pidict.get_conMemUsage(data, index))
                 }
         }
     ]
     return json_body
 
-
-
 client = InfluxDBClient('localhost', 8086, 'root', 'root', 'example')
 
 client.create_database('example')
 
-client.write_points(writeDB())
+data = pidict.read_jsonFile(fname)
+print data
+l = len(data['containers'])
+for i in range(l):
+    client.write_points(writeToDB(data, i))
 
-result = client.query('select cpuUsage from pi_status;')
+# result = client.query('select cpuUsage from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select memUsage from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select cpuLoad from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select image_name from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select container_id from pi_status;')
+# print("Result: {0}".format(result))
+#
+#result = client.query('select container_name from pi_status;')
+#print("Result: {0}".format(result))
+#
+# result = client.query('select container_status from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select port_host from pi_status;')
+# print("Result: {0}".format(result))
+#
+# result = client.query('select port_container from pi_status;')
+# print("Result: {0}".format(result))
+#
+result = client.query('select container_cpuUsage from pi_status;')
 print("Result: {0}".format(result))
 
-result = client.query('select memUsage from pi_status;')
+result = client.query('select container_memUsage from pi_status;')
 print("Result: {0}".format(result))
 
-result = client.query('select cpuLoad from pi_status;')
-print("Result: {0}".format(result))
+

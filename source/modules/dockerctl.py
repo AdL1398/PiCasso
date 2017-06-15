@@ -94,10 +94,12 @@ def get_container_info(pi_status):
         cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $2}\' " % (container['Id'], container['Id'])
         cpuUsage = system_call(cmd)
         cpuUsage_str = cpuUsage.replace("\n", "")
+        cpuUsage_str = cpuUsage_str.replace("%", "")
 
         cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $8}\' " % (container['Id'], container['Id'])
         memUsage = system_call(cmd)
         memUsage_str = memUsage.replace("\n", "")
+        memUsage_str = memUsage_str.replace("%", "")
         dict_port_host= container['Ports'][0]
         p_int=dict_port_host['PublicPort'] 
         port_host_str= str(p_int).replace("\n", "")
