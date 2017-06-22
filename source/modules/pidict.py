@@ -446,7 +446,7 @@ the resources of a Pi.
 Reads the json file from disk and converts it into the original dictionary 
 that represents the resources of the Pi
 """
-def read_jsonFile(fname): 
+def read_jsonFile(fname):
     with open(fname) as json_infile:
          pi_stat_loaded = json.load(json_infile)
     return pi_stat_loaded

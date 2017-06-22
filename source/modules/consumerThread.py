@@ -14,7 +14,7 @@ class consumerThread (threading.Thread):
    def run(self):
       print "Starting " + self.name
       stopFlag = False
-      while not self.stopped.wait(2):
+      while not self.stopped.wait(10):
          print "creating thread for: %s" %self.namePrefix
          # call a function
          consumer = Consumer(self.namePrefix)

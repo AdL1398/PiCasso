@@ -29,6 +29,7 @@ from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pyndn import Interest
 import dockerctl
+from monitoringManager import InfluxDBWriter
 from enumerate_publisher import EnumeratePublisher
 
 
@@ -61,7 +62,7 @@ class Consumer(object):
         interest = Interest(name)
         uri = name.toUri()
 
-        interest.setInterestLifetimeMilliseconds(4000)
+        interest.setInterestLifetimeMilliseconds(12000)
         interest.setMustBeFresh(True)
 
         if uri not in self.outstanding:
@@ -82,10 +83,16 @@ class Consumer(object):
             abs_path = os.path.join(self.script_dir, rel_path)
             print "path of monitoring Pi:%s" %abs_path
             f = os.popen('date +%s')
-            timestamp = f.read()
-            fileName = 'status'+'-' + nodeName + '_' + timestamp + '.json'
+            #timestamp = f.read()
+            fileName = 'status'+'-' + nodeName + '.json'
             print "Monitoring File name:%s" %fileName
+            file_path = os.path.join(abs_path,fileName)
+            if os.path.exists(file_path) == True:
+                print 'remove old monitoring Data'
+                os.remove(file_path)
             self._extractData_message(abs_path, fileName, data)
+            self.Monitoring_Manager = InfluxDBWriter(abs_path, fileName)
+            self.Monitoring_Manager.write()
 
         else:
             print "function is not yet ready"

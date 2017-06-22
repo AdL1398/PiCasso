@@ -61,27 +61,6 @@ import json
 #                       ]
 #     }
 
+import os
 
-fname = "piStatusSEG_1.json"
-path = "./PIstatus/"
 
-def readMonitoringData(path, fname):
-    json_data = path + fname
-    with open(json_data) as json_infile:
-        ds_loaded = json.load(json_infile)
-    return ds_loaded
-
-pi_status = readMonitoringData(path, fname)
-
-#print "Pistatus_Container1: ", containerList[0]
-l = len(pi_status['containers'])
-
-for i in range(l):
-    print "Con %d ID: %s " % (i, pidict.get_conID(pi_status, i))
-    print "Con %d cpuUsage: %s" % (i, pidict.get_conCpuUsage(pi_status,i))
-    print "Con %d memUsage: %s" % (i, pidict.get_conMemUsage(pi_status, i))
-    print "Con %d conName:  %s" % (i, pidict.get_conName(pi_status, i))
-    print "Con %d conStatus: %s" %(i, pidict.get_conStatus(pi_status, i))
-    print "Con %d conImage: %s" % (i, pidict.get_conImage(pi_status, i))
-    print "Con %d port_host: %s" % (i, pidict.get_conPorthost(pi_status, i))
-    print "Con %d port_container: %s" % (i, pidict.get_conPort(pi_status, i))
