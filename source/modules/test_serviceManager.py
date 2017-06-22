@@ -1,6 +1,6 @@
-from consumer import Consumer
-from consumerThread import consumerThread
-#import threading
+#from consumer import Consumer
+#from consumerThread import consumerThread
+from monitoringThread import MonitoringThread
 from threading import Timer, Thread, Event
 import sys
 import traceback
@@ -11,6 +11,7 @@ class ServiceManaer(object):
     def __init__(self):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
+        self.monitoring_frequency = 10
 
     def run(self):
         try:
@@ -18,7 +19,8 @@ class ServiceManaer(object):
             #instantiate Grafana
             # Create Thread
             stopFlag = Event()
-            thread1 = consumerThread(1, "Thread-1", 1, self.namePrefix1, stopFlag)
+            print 'Start Monitoring Manager'
+            thread1 = MonitoringThread(1, "Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
             thread1.start()
 
         except RuntimeError as e:

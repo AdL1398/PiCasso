@@ -1,5 +1,6 @@
 from influxdb import InfluxDBClient
 from requests.exceptions import ConnectionError
+import threading
 import json
 import os.path
 import pidict
@@ -73,48 +74,3 @@ class InfluxDBWriter():
         ]
         return json_body
 
-# class Monitoring_Manager(object):
-#     def __init__(self, path, filename):
-#         self.fname = path + filename
-#         self.client = InfluxDBClient('localhost', 8086, 'root', 'root', 'example')
-#         self.client.create_database('example')
-# 
-#     def collectData(self, data, con_index):
-#         json_body = [
-#             {
-#                 "measurement": "pi_status",
-#                     "tags": {
-#                         "host_name": pidict.get_PiID(data),
-#                         "host_ip":   pidict.get_PiIP(data),
-#                         "hardware": "RPI-3",
-#                         "OS": "hypriotOS",
-#                         "image_name": pidict.get_conImage(data, con_index),
-#                         "container_id": pidict.get_conID(data, con_index),
-#                         "container_name": pidict.get_conName(data, con_index),
-#                         "container_status": pidict.get_conStatus(data, con_index),
-#                     },
-#                     #"time": "2009-11-10T23:00:00Z",
-#                     "fields": {
-#                         "cpuLoad":  float(pidict.get_resourceUsage_cpuLoad(data)),
-#                         "cpuUsage": float(pidict.get_resourceUsage_cpuUsage(data)),
-#                         "memUsage": float(pidict.get_resourceUsage_memUsage(data)),
-#                         "port_host": int(pidict.get_conPorthost(data, con_index)),
-#                         "port_container": int(pidict.get_conPort(data, con_index)),
-#                         "container_cpuUsage": float(pidict.get_conCpuUsage(data, con_index)),
-#                         "container_memUsage": float(pidict.get_conMemUsage(data, con_index))
-#                     }
-#             }
-#         ]
-#         return json_body
-# 
-#     def writeToDB(self):
-# 
-#         data = pidict.read_jsonFile(fname)
-#         print data
-#         l = len(data['containers'])
-#         for i in range(l):
-#             self.client.write_points(self.collectData(data, i))
-# 
-# 
-# 
-# 

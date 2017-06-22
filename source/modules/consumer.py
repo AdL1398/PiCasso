@@ -29,7 +29,7 @@ from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pyndn import Interest
 import dockerctl
-from monitoringManager import InfluxDBWriter
+from monitoringDB import InfluxDBWriter
 from enumerate_publisher import EnumeratePublisher
 
 
