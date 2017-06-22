@@ -41,6 +41,31 @@ path = "SEG_repository"
 info = {}
 container_list = []
 
+def deployContainer(docker_image_name, docker_port_host, docker_port_container):
+
+    print 'Check docker Image Name: %s ' % docker_image_name
+    print 'Port Host: %d' % docker_port_host
+    print 'Port Container %d' % docker_port_container
+
+    if is_image_running(docker_image_name) == True:
+        print 'Image: %s is already running' % docker_image_name
+    else:
+        ##image is not running
+        ##check docker client has this image or not
+        print 'Image: %s is NOT running' % docker_image_name
+        if has_image(docker_image_name) == True:
+            ## has image but image is not running
+            print 'Image: %s is already stored' % docker_image_name
+            if run_image(docker_image_name, docker_port_host, docker_port_container) == True:
+                print 'Running docker image %s ...' % docker_image_name
+            else:
+                print 'Error: Cannot run image %s' % docker_image_name
+        else:
+            print 'Image: %s is not stored, pull from SC' % docker_image_name
+            ### Call sendNextInterest to SC
+            #prefix.requestService = (self.prefix_serviceMigration.append(Name(fileName)))
+            print 'Sending Interest message: %s' % prefix.requestService
+            #self.sendNextInterest(prefix.requestService)
 
 def run_image(image_name, port_host, port_container):
     print time.strftime("%a, %d %b %Y %X +0000", time.gmtime())

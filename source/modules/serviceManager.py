@@ -1,5 +1,21 @@
-#from consumer import Consumer
-#from consumerThread import consumerThread
+
+"""
+title           : serviceManger.py
+description     : This class operates as Service Manager in PiCasso Architecture. It provides following functions:
+                  a) instantiate Monitoring DB (InfluxDB container)
+                  b) instantiate Monitoring web interface (grafana container)
+                  c) create thread for monitoring Manager to fetch data from SEG
+source          :
+author          : Adisorn Lertsinsrubtavee
+date            : 22 June 2017
+version         : 1.0
+contributors    :
+usage           :
+notes           :
+compile and run : It is a python module imported by a main python programme.
+python_version  : Python 2.7.12
+====================================================
+"""
 from monitoringThread import MonitoringThread
 from threading import Timer, Thread, Event
 import sys
@@ -16,6 +32,8 @@ class ServiceManaer(object):
     def run(self):
         try:
             #instantiate DB here
+            print 'Instantiate monitoring DB'
+            os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
             #instantiate Grafana
             # Create Thread
             stopFlag = Event()
