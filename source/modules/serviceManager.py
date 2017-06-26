@@ -41,6 +41,9 @@ class ServiceManager(object):
             SEG1_monitoring = MonitoringThread(1, "Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
             SEG1_monitoring.start()
 
+            print 'Start Decision Engine'
+            
+
         except RuntimeError as e:
             print "ERROR: %s" %  e
 

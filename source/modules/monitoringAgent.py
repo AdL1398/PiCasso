@@ -142,10 +142,7 @@ class Monitoring_Agent(object):
         print "Sending File Function"
         interestName = interest.getName()
         interestNameSize = interestName.size()
-        #interest_name_components = interestName.toUri().split("/")
-        #timeStamp = interest_name_components[interest_name_components.index("service_monitoring") + 2]
-        #print "Receive Interest message name: %s" % interestName
-        ##### V2 Data message is JSON file
+
         try:
             SegmentNum = (interestName.get(interestNameSize - 1)).toSegment()
             dataName = interestName.getSubName(0, interestNameSize - 1)
