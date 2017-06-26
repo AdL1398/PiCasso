@@ -33,14 +33,14 @@ from termopi import termopi # class with dictionary data structure
 from enumerate_publisher import EnumeratePublisher
 
 class Monitoring_Agent(object):
-    def __init__(self, namePrefix, DS, producerName):
+    def __init__(self, namePrefix, producerName):
         self.configPrefix = Name(namePrefix)
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
         #self.DataStore = DS.readDataStore_json()
-        self.DataStore = DS.table
+        #self.DataStore = DS.table
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
         self.Datamessage_size = 8000 #8kB --> Max Size from NDN standard
@@ -62,55 +62,78 @@ class Monitoring_Agent(object):
             print "ERROR: %s" %  e
 
     def onInterest(self, prefix, interest, face, interestFilterId, filter):
-
         interestName = interest.getName()
         data = Data(interestName)
-        print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-        pprint(self.DataStore)
+        #print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        #pprint(self.DataStore)
         print "Interest Name: %s" %interestName
-        content_type = self.DataStore[str(interestName)]['Type']
-        print "content type: %s" %content_type
-        content = self.DataStore[str(interestName)]['Content']
-        if content_type == 'text':
-            print "attach text to Data message"
-            print "Content: %s" %content
-            data.setContent(content)
-            hourMilliseconds = 600 * 1000
-            data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
-            self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
-            face.send(data.wireEncode().toBuffer())
-            print "Replied to Interest name: %s" % interestName.toUri()
-            print "Replied with Data name: %s" % interestName.toUri()
-
-        elif content_type == 'file':
-            print "chop file to small piece of chunks"
-            pass
-        elif content_type == 'function':
-            print "call other functions to get Data"
-
-            if content == 'monitoring':
-                print "Check Pi and Containers Status"
-                monitoring_agent = termopi()
-                monitoring_agent.prt_pi_resources()
-                print "Update json file"
-                filename = "piStatus"+self.producerName+".json"
-                folder_name = "PIstatus/"
-                rel_path = os.path.join(self.script_dir, folder_name)
-                if not os.path.exists(rel_path):
-                    os.makedirs(rel_path)
-                abs_file_path = os.path.join(rel_path, filename)
-                f = os.popen('date +%s')
-                #timestamp = f.read()
-                filename = "piStatus_"+self.producerName+".json"
-                #rel_path = "PIstatus/"+filename
-                #abs_file_path = os.path.join(self.script_dir, rel_path)
-                #print "File path of monitoring Pi:%s" %abs_file_path
-                monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
-                freshness = 10 #milli second
-                self.sendingFile(abs_file_path, interest, face, freshness)
+        interest_name_components = interestName.toUri().split("/")
+        if "monitoring" in interest_name_components:
+            print "Check Pi and Containers Status"
+            monitoring_agent = termopi()
+            monitoring_agent.prt_pi_resources()
+            print "Update json file"
+            filename = "piStatus"+self.producerName+".json"
+            folder_name = "PIstatus/"
+            rel_path = os.path.join(self.script_dir, folder_name)
+            if not os.path.exists(rel_path):
+                os.makedirs(rel_path)
+            abs_file_path = os.path.join(rel_path, filename)
+            monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
+            freshness = 10 #milli second, content will be deleted from the cache after freshness period
+            self.sendingFile(abs_file_path, interest, face, freshness)
         else:
-            print "content type is mismatch"
-            pass
+            print "Interest name mismatch"
+    # def onInterest(self, prefix, interest, face, interestFilterId, filter):
+    #
+    #     interestName = interest.getName()
+    #     data = Data(interestName)
+    #     print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+    #     pprint(self.DataStore)
+    #     print "Interest Name: %s" %interestName
+    #     content_type = self.DataStore[str(interestName)]['Type']
+    #     print "content type: %s" %content_type
+    #     content = self.DataStore[str(interestName)]['Content']
+    #     if content_type == 'text':
+    #         print "attach text to Data message"
+    #         print "Content: %s" %content
+    #         data.setContent(content)
+    #         hourMilliseconds = 600 * 1000
+    #         data.getMetaInfo().setFreshnessPeriod(hourMilliseconds)
+    #         self.keyChain.sign(data, self.keyChain.getDefaultCertificateName())
+    #         face.send(data.wireEncode().toBuffer())
+    #         print "Replied to Interest name: %s" % interestName.toUri()
+    #         print "Replied with Data name: %s" % interestName.toUri()
+    #
+    #     elif content_type == 'file':
+    #         print "chop file to small piece of chunks"
+    #         pass
+    #     elif content_type == 'function':
+    #         print "call other functions to get Data"
+    #
+    #         if content == 'monitoring':
+    #             print "Check Pi and Containers Status"
+    #             monitoring_agent = termopi()
+    #             monitoring_agent.prt_pi_resources()
+    #             print "Update json file"
+    #             filename = "piStatus"+self.producerName+".json"
+    #             folder_name = "PIstatus/"
+    #             rel_path = os.path.join(self.script_dir, folder_name)
+    #             if not os.path.exists(rel_path):
+    #                 os.makedirs(rel_path)
+    #             abs_file_path = os.path.join(rel_path, filename)
+    #             f = os.popen('date +%s')
+    #             #timestamp = f.read()
+    #             filename = "piStatus_"+self.producerName+".json"
+    #             #rel_path = "PIstatus/"+filename
+    #             #abs_file_path = os.path.join(self.script_dir, rel_path)
+    #             #print "File path of monitoring Pi:%s" %abs_file_path
+    #             monitoring_agent.create_jsonfile_with_pi_status(abs_file_path)
+    #             freshness = 10 #milli second
+    #             self.sendingFile(abs_file_path, interest, face, freshness)
+    #     else:
+    #         print "content type is mismatch"
+    #         pass
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True

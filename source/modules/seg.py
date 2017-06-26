@@ -6,23 +6,23 @@ from pprint import pprint
 
 class SEG(object):
     def __init__(self, node_id):
-        self.DS = DataStore()
+        #self.DS = DataStore()
         self.seg_ID = node_id
         self.namePrefix1 = '/picasso/monitoring/' + self.seg_ID
-        type = 'function'
-        content = 'monitoring'
-        self.DS.putDataStore(self.namePrefix1, type, content)
+        #type = 'function'
+        #content = 'monitoring'
+        #self.DS.putDataStore(self.namePrefix1, type, content)
         #print DS.table
-        print 'add content name: %s' %self.namePrefix1
-        print 'Content type: %s' %self.DS.getDataStore_Type(self.namePrefix1)
-        print 'Content: %s' %self.DS.getDataStore_Content(self.namePrefix1)
-        self.DS.creaDataStore_json(self.DS.table)
+        #print 'add content name: %s' %self.namePrefix1
+        #print 'Content type: %s' %self.DS.getDataStore_Type(self.namePrefix1)
+        #print 'Content: %s' %self.DS.getDataStore_Content(self.namePrefix1)
+        #self.DS.creaDataStore_json(self.DS.table)
 
     def run(self):
         try:
             exitFlag = 0
             print "Start %s" %self.seg_ID
-            monitoring_agent = MonitoringAgent_Thread(1, "Thread-1", self.seg_ID, self.namePrefix1, self.DS)
+            monitoring_agent = MonitoringAgent_Thread(1, "Thread-1", self.seg_ID, self.namePrefix1)
             monitoring_agent.start()
             #print "Exiting Main Thread"
 
