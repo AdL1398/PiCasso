@@ -14,7 +14,7 @@ python_version  : Python 2.7.12
 ====================================================
 """
 
-from monitoringManager import MonitoringManager
+from monitoringManager_main import MonitoringManager
 import threading
 
 

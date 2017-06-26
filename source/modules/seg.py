@@ -1,6 +1,6 @@
 import sys
 import traceback
-from producerThread import producerThread
+from monitoringAgent_thread import MonitoringAgent_Thread
 from dataStore import DataStore
 from pprint import pprint
 
@@ -21,9 +21,9 @@ class SEG(object):
     def run(self):
         try:
             exitFlag = 0
-            print "Test Producer"
-            thread1 = producerThread(1, "Thread-1", self.seg_ID, self.namePrefix1, self.DS)
-            thread1.start()
+            print "Start %s" %self.seg_ID
+            monitoring_agent = MonitoringAgent_Thread(1, "Thread-1", self.seg_ID, self.namePrefix1, self.DS)
+            monitoring_agent.start()
             #print "Exiting Main Thread"
 
         except RuntimeError as e:

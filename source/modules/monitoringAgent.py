@@ -32,7 +32,7 @@ from pprint import pprint
 from termopi import termopi # class with dictionary data structure
 from enumerate_publisher import EnumeratePublisher
 
-class Producer(object):
+class Monitoring_Agent(object):
     def __init__(self, namePrefix, DS, producerName):
         self.configPrefix = Name(namePrefix)
         self.outstanding = dict()

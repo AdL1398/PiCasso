@@ -16,7 +16,7 @@ compile and run : It is a python module imported by a main python programme.
 python_version  : Python 2.7.12
 ====================================================
 """
-from monitoringThread import MonitoringThread
+from monitoringManager_thread import MonitoringThread
 from threading import Timer, Thread, Event
 import sys
 import traceback
@@ -38,8 +38,8 @@ class ServiceManager(object):
             # Create Thread
             stopFlag = Event()
             print 'Start Monitoring Manager'
-            thread1 = MonitoringThread(1, "Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            thread1.start()
+            SEG1_monitoring = MonitoringThread(1, "Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            SEG1_monitoring.start()
 
         except RuntimeError as e:
             print "ERROR: %s" %  e
