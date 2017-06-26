@@ -23,7 +23,7 @@ import traceback
 import os
 import time
 
-class ServiceManaer(object):
+class ServiceManager(object):
     def __init__(self):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     #nameInput  = raw_input('Enter Name of Content ')
     print 'Start Service Manager'
     try:
-        ServiceManaer().run()
+        ServiceManager().run()
     except:
         traceback.print_exc(file=sys.stdout)
         sys.exit(1)

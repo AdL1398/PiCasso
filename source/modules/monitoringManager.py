@@ -1,8 +1,12 @@
 """
-title           : consumer.py
-description     : includes
-                  a) express Interest message
-                  b) process Data message
+title           : monitoringManager.py
+description     : This class operates as Monitoring manager. It includes following functions:
+                  a) send Interest message to fetch monitoring data of selected SEG.
+                  b) process Data message received from SEG
+                  c) extract data message: If monitoring data has more than one chunk, it will send subsequent
+                  Interest messages.
+                : Input argument
+                   a) Name of SEG (e.g., SEG_1)
 source          :
 author          : Adisorn Lertsinsrubtavee
 date            : 19 May 2017
@@ -33,7 +37,7 @@ from monitoringDB import InfluxDBWriter
 from enumerate_publisher import EnumeratePublisher
 
 
-class Consumer(object):
+class MonitoringManager(object):
     def __init__(self, name):
         self.outstanding = dict()
         self.isDone = False
