@@ -23,6 +23,8 @@ from pyndn import InterestFilter
 from pyndn.security import KeyChain
 from pyndn import Interest
 import dockerctl
+import os
+import time
 from enumerate_publisher import EnumeratePublisher
 
 
@@ -35,6 +37,10 @@ class DecisionEngine(object):
         self.configPrefix = Name(namePrefix)
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
+        folder_name = "SC_repository/"
+        rel_path = os.path.join(self.script_dir, folder_name)
+        if not os.path.exists(rel_path):
+            os.makedirs(rel_path)
 
     def run(self):
 
@@ -64,3 +70,7 @@ class DecisionEngine(object):
             print 'Start service deployment'
         else:
             print "Interest name mismatch"
+
+    def onRegisterFailed(self, prefix):
+        print "Register failed for prefix", prefix.toUri()
+        self.isDone = True

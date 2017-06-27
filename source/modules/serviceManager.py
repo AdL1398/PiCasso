@@ -17,6 +17,7 @@ python_version  : Python 2.7.12
 ====================================================
 """
 from monitoringManager_thread import MonitoringThread
+from decisionEngine_thread import DecisionEngine_Thread
 from threading import Timer, Thread, Event
 import sys
 import traceback
@@ -27,22 +28,24 @@ class ServiceManager(object):
     def __init__(self):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
+        self.namePrefix_DE = '/picasso/service_deployment/'
         self.monitoring_frequency = 10
 
     def run(self):
         try:
             #instantiate DB here
-            print 'Instantiate monitoring DB'
-            os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
+            #print 'Instantiate monitoring DB'
+            #os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
             #instantiate Grafana
             # Create Thread
-            stopFlag = Event()
-            print 'Start Monitoring Manager'
-            SEG1_monitoring = MonitoringThread(1, "Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            SEG1_monitoring.start()
+            # stopFlag = Event()
+            # print 'Start Monitoring Manager'
+            # SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            # SEG1_monitoring.start()
 
             print 'Start Decision Engine'
-            
+            Decision_engine = DecisionEngine_Thread(2, "DecisionEngine-Thread", self.namePrefix_DE)
+            Decision_engine.start()
 
         except RuntimeError as e:
             print "ERROR: %s" %  e
