@@ -40,7 +40,7 @@ class trigger(object):
         prefix_serviceMigration_KEBAPP = "/kebapp/maps/routefinder/"
         self.prefix_serviceMigration_KEBAPP = Name(prefix_serviceMigration_KEBAPP)
 
-        prefix_DE = "/picasso/service_deployment/"
+        prefix_DE = "/picasso/service_deployment/SEG_1"
         self.prefix_DE = Name(prefix_DE)
 
         # Default configuration of NDN
@@ -56,17 +56,16 @@ class trigger(object):
         try:
             # send Interest message to retrieve data
             #self.sendNextInterest(self.prefix_serviceMigration)
-            demo_name = raw_input('Enter name of the Demo (DTN or KEBAPP) ')
+            demo_name = raw_input('Enter name of the Demo (DTN or KEBAPP or DE) ')
             if demo_name == 'DTN':
                 print 'Start SM-DTN Demo'
                 name_prefix = self.prefix_start_DTN_demo
             if demo_name == 'KEBAPP':
                 print 'Start SM-KEBAPP demo'
                 name_prefix = self.prefix_serviceMigration_KEBAPP
-
             if demo_name == 'DE':
                 print 'Start DE test'
-                name_prefix = self.DE
+                name_prefix = self.prefix_DE
             else:
                 print 'Try Again'
             self.sendPushInterest(name_prefix)

@@ -1,13 +1,11 @@
 """
-title           : decisionEngine_main.py
-description     : This class operates as decision engine. It includes following functions:
-                  a) open a NDN face for name:/picasso/service_deployment
-                  b)
-
-
+title           : serviceExecution_main.py
+description     : includes
+                  a) register name prefix
+                  b) response Interest messages which have matching name prefixes
 source          :
 author          : Adisorn Lertsinsrubtavee
-date            : 25 June 2017
+date            : 27 June 2017
 version         : 1.0
 contributors    :
 usage           :
@@ -16,37 +14,39 @@ compile and run : It is a python module imported by a main python programme.
 python_version  : Python 2.7.12
 ====================================================
 """
-from pyndn import Name
+
+import sys
+import time
+import argparse
+import traceback
+import threading
+import os
+import dockerctl
+from pyndn import Interest
 from pyndn import Data
+from pyndn import Exclude
+from pyndn import Name
 from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
-from pyndn import Interest
-import dockerctl
-import os
-import time
+from pprint import pprint
+from termopi import termopi # class with dictionary data structure
 from enumerate_publisher import EnumeratePublisher
 
-
-class DecisionEngine(object):
-    def __init__(self, namePrefix):
+class ServiceExecution(object):
+    def __init__(self, producerName, namePrefix):
+        self.configPrefix = Name(namePrefix)
         self.outstanding = dict()
         self.isDone = False
         self.keyChain = KeyChain()
         self.face = Face("127.0.0.1")
-        self.configPrefix = Name(namePrefix)
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
-        folder_name = "SC_repository/"
-        rel_path = os.path.join(self.script_dir, folder_name)
-        if not os.path.exists(rel_path):
-            os.makedirs(rel_path)
-
+        self.Datamessage_size = 8000 #8kB --> Max Size from NDN standard
+        self.producerName = producerName
 
     def run(self):
-
         try:
-
             self.face.setCommandSigningInfo(self.keyChain, self.keyChain.getDefaultCertificateName())
             self.face.registerPrefix(self.configPrefix, self.onInterest, self.onRegisterFailed)
             print "Registered prefix : " + self.configPrefix.toUri()
@@ -58,16 +58,11 @@ class DecisionEngine(object):
         except RuntimeError as e:
             print "ERROR: %s" %  e
 
-        return True
-
     def onInterest(self, prefix, interest, face, interestFilterId, filter):
         interestName = interest.getName()
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
-
-        if "trigger" in interest_name_components:
-            print 'Query database'
-            print 'Call decision engine algorithm'
+        if "service_deployment" in interest_name_components:
             print 'Start service deployment'
             ## check image is running or not
             #Ger info from serviceInfo

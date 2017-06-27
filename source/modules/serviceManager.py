@@ -28,7 +28,7 @@ class ServiceManager(object):
     def __init__(self):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
-        self.namePrefix_DE = '/picasso/service_deployment/'
+        self.namePrefix_DE = '/picasso/trigger/'
         self.monitoring_frequency = 10
 
     def run(self):
