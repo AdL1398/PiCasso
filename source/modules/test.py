@@ -6,9 +6,16 @@ import pidict
 import json
 import dockerctl
 
-serviceName = 'web-uhttpd'
-filename = dockerctl.serviceInfo[serviceName]['image_filename']
-print filename
+
+
+def test_multireturn (x):
+    a = x +1
+    b = True
+    return a, b
+
+number, boo = test_multireturn(1)
+print number
+print boo
 # script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
 # script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
 # rel_path = "PIstatus/data.txt"

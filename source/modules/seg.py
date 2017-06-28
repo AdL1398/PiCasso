@@ -10,7 +10,7 @@ class SEG(object):
         #self.DS = DataStore()
         self.seg_ID = node_id
         self.namePrefix_Monitor = '/picasso/monitoring/' + self.seg_ID
-        self.namePrefix_SE = '/picasso/service_deployment/' + self.seg_ID
+        self.namePrefix_SE = '/picasso/service_deployment_push/' + self.seg_ID
         #type = 'function'
         #content = 'monitoring'
         #self.DS.putDataStore(self.namePrefix1, type, content)

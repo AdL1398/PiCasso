@@ -36,17 +36,15 @@ import subprocess
 
 
 serviceInfo = {
-            'umobile-store': {
+            'umobile-store-nano-rpi.tar': {
                                   'image_name':'al1309/umobile-store-nano-rpi:latest',
                                   'port_host': 80,
                                   'port_container': 80,
-                                  'image_filename': 'umobile-store-nano-rpi.tar',
                                   'component': ['ubuntu.tar', 'python.tar', 'java.tar']},
-            'web-uhttpd': {
+            'uhttpd.tar': {
                                   'image_name': 'fnichol/uhttpd:latest',
                                   'port_host': 8081,
                                   'port_container': 80,
-                                  'image_filename': 'uhttpd.tar',
                                   'component': ['debian.tar', 'python.tar', 'java.tar']}
                             }
 
@@ -57,10 +55,10 @@ path = "SEG_repository"
 info = {}
 container_list = []
 
-def deployContainer(serviceName):
-    docker_image_name = serviceInfo[serviceName]['image_name']
-    docker_port_host = serviceInfo[serviceName]['port_host']
-    docker_port_container = serviceInfo[serviceName]['port_container']
+def deployContainer(image_fileName):
+    docker_image_name = serviceInfo[image_fileName]['image_name']
+    docker_port_host = serviceInfo[image_fileName]['port_host']
+    docker_port_container = serviceInfo[image_fileName]['port_container']
 
     print 'Check docker Image Name: %s ' % docker_image_name
     print 'Port Host: %d' % docker_port_host
@@ -109,20 +107,19 @@ def has_image(image_name):
             return True
     return False
 
-
 def is_image_running(image_name):
     for container in client.containers():
         if container["Image"] == image_name:
             return True
     return False
 
-
-def load_image(image_name,path):
+def load_image(image_filename, path):
     #image_shortname = image_name[image_name.find("/") + 1:image_name.find(":")]
     #print image_shortname
     #f = open(path + '/'+ image_shortname + '.tar', 'r')
     image_filename = serviceInfo[image_name]['image_filename']
-    print 'Image file name %s' image_filename
+    print 'Image file name %s' %image_filename
+    f = open(path + '/'+ image_filename, 'r')
     client.load_image(f)
     pulling_flag = False
     print 'image loaded'
