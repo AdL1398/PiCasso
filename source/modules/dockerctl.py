@@ -117,10 +117,12 @@ def is_image_running(image_name):
     return False
 
 
-def load_image(image_name):
-    image_shortname = image_name[image_name.find("/") + 1:image_name.find(":")]
-    print image_shortname
-    f = open(path + '/'+ image_shortname + '.tar', 'r')
+def load_image(image_name,path):
+    #image_shortname = image_name[image_name.find("/") + 1:image_name.find(":")]
+    #print image_shortname
+    #f = open(path + '/'+ image_shortname + '.tar', 'r')
+    image_filename = serviceInfo[image_name]['image_filename']
+    print 'Image file name %s' image_filename
     client.load_image(f)
     pulling_flag = False
     print 'image loaded'

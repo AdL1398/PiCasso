@@ -40,7 +40,7 @@ class trigger(object):
         prefix_serviceMigration_KEBAPP = "/kebapp/maps/routefinder/"
         self.prefix_serviceMigration_KEBAPP = Name(prefix_serviceMigration_KEBAPP)
 
-        prefix_DE = "/picasso/service_deployment/SEG_1"
+        prefix_DE = "/picasso/service_deployment/SEG_1/"
         self.prefix_DE = Name(prefix_DE)
 
         # Default configuration of NDN

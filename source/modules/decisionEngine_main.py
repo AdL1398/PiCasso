@@ -69,16 +69,11 @@ class DecisionEngine(object):
             print 'Query database'
             print 'Call decision engine algorithm'
             print 'Start service deployment'
-            ## check image is running or not
-            #Ger info from serviceInfo
-            serviceName = 'web-uhttpd'
-            if dockerctl.deployContainer(serviceName) == False:
-                print 'Service: %s is not locally cached, pull from Repo' % serviceName
-                #print 'Sending Interest message: %s' % prefix.requestService
-                #self.sendNextInterest(prefix.requestService)
+
         else:
             print "Interest name mismatch"
 
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()
         self.isDone = True
+
