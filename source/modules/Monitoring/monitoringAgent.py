@@ -177,9 +177,6 @@ class Monitoring_Agent(object):
             print "Replied to Interest name: %s" % interestName.toUri()
             print "Replied with Data name: %s" % dataName.toUri()
 
-            # If configuration manager has sent the last segment of the file, script can be stopped.
-            # if SegmentNum == last_segment_num:
-            # self.isDone = True
 
         except ValueError as err:
             print "ERROR: %s" % err

@@ -80,7 +80,7 @@ class ServiceExecution(object):
             if dockerctl.deployContainer(image_fileName) == False:
                 print 'Service: %s is not locally cached, pull from Repo' % image_fileName
                 prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
-                print 'Sending Interest message: %s' % prefix.pullService
+                print 'Sending Interest message: %s' % prefix_pullImage
                 self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
         else:
             print "Interest name mismatch"
@@ -114,10 +114,9 @@ class ServiceExecution(object):
         dataName_size = dataName.size()
         print "Received data name: ", dataName.toUri()
         data_name_components = dataName.toUri().split("/")
-        ## /picasso/service_deployment/pull/servicename/%%01
-        if "service_deployment" in data_name_components:
-            #nodeName = 'SEG_1'
-            fileName = data_name_components[data_name_components.index("service_deployment") + 2]
+        ## Here is a received Data message /picasso/service_deployment_pull/fileName/%%01
+        if "service_deployment_pull" in data_name_components:
+            fileName = data_name_components[data_name_components.index("service_deployment_pull") + 1]
             rel_path = "SEG_repository"
             abs_path = os.path.join(self.script_dir, rel_path)
             print "path of SEG_repository:%s" %abs_path
@@ -126,6 +125,12 @@ class ServiceExecution(object):
             last_segment, interestName = ndnMessage_Helper.extractData_message(abs_path, fileName, data)
             if last_segment == True:
                 print 'Load image and run service'
+                if dockerctl.load_image(file_path) == True:
+                    print 'image%s is loaded ' %fileName
+                    if dockerctl.deployContainer(fileName) == False:
+                        print 'Image:%s cannot be deployed' %fileName
+                else:
+                    print 'image%s cannot be loaded' %fileName
             else:
                 print 'This is not the last chunk, send subsequent Interest'
                 self._sendNextInterest(interestName, self.interestLifetime, 'pull')
@@ -135,7 +140,18 @@ class ServiceExecution(object):
         currentInterestName = interest.getName()
         # Delete the Interest name from outstanding INTEREST dict as reply DATA has been received.
         del self.outstanding[currentInterestName.toUri()]
-        self.isDone = True
+        #self.isDone = True
 
 
+    def _onTimeout(self, interest):
+        name = interest.getName()
+        uri = name.toUri()
 
+        print "TIMEOUT #%d: %s" % (self.outstanding[uri], uri)
+        self.outstanding[uri] += 1
+
+        if self.outstanding[uri] <= 3:
+            self._sendNextInterest(name, self.interestLifetime, 'pull')
+        else:
+            #self.isDone = True
+            print 'Cannot pull content for Interest: %s' %name

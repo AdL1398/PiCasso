@@ -5,8 +5,9 @@ from pyndn import Name
 from pyndn import Face
 from pyndn import InterestFilter
 from pyndn.security import KeyChain
+import os
 
-def extractData_message(self, path, fileName, data):
+def extractData_message(path, fileName, data):
     payload = data.getContent()
     dataName = data.getName()
     dataName_size = dataName.size()
@@ -43,4 +44,4 @@ def extractData_message(self, path, fileName, data):
 
     except RuntimeError as e:
             print "ERROR: %s" % e
-            self.isDone = True
+            #self.isDone = True
