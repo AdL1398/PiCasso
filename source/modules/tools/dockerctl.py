@@ -34,6 +34,12 @@ import docker
 import os
 import subprocess
 
+script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
+script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
+parent_dir = os.path.split(script_dir)[0]
+SEG_repo_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository')
+imagefile_name = 'uhttpd.tar'
+
 
 serviceInfo = {
             'umobile-store-nano-rpi.tar': {
@@ -79,6 +85,17 @@ def deployContainer(image_fileName):
             else:
                 print 'Error: Cannot run image %s' % docker_image_name
             return True
+
+        elif has_imagefile(image_fileName) == True :
+            print 'Load image from local repository'
+
+            if (load_image(image_fileName)==True):
+                print 'Image %s is loaded' %image_fileName
+                if run_image(docker_image_name, docker_port_host, docker_port_container) == True:
+                    print 'Running docker image %s ...' % docker_image_name
+                else:
+                    print 'Error: Cannot run image %s' % docker_image_name
+                return True
         else:
             print 'Image: %s is not stored, pull from SC' % docker_image_name
             ### Call sendNextInterest to SC
@@ -113,17 +130,27 @@ def is_image_running(image_name):
             return True
     return False
 
-def load_image(file_path):
+def load_image(image_filename):
     #image_shortname = image_name[image_name.find("/") + 1:image_name.find(":")]
     #print image_shortname
     #f = open(path + '/'+ image_shortname + '.tar', 'r')
     #image_filename = serviceInfo[image_name]['image_filename']
-    print 'Path to image file %s' %file_path
-    f = open(file_path, 'r')
+    imagefile_path = os.path.join(SEG_repo_path, image_filename)
+    print 'Path to image file %s' %imagefile_path
+    f = open(imagefile_path, 'r')
     client.load_image(f)
     pulling_flag = False
     print 'image loaded'
     return True
+
+def has_imagefile(image_filename):
+    imagefile_path = os.path.join(SEG_repo_path, image_filename)
+    if os.path.exists(imagefile_path) == True:
+        print 'image file is already stored'
+        return True
+    else:
+        print 'image file is not available in SEG repository'
+        return False
 
 def get_container_info(pi_status):
     """

@@ -125,12 +125,8 @@ class ServiceExecution(object):
             last_segment, interestName = ndnMessage_Helper.extractData_message(abs_path, fileName, data)
             if last_segment == True:
                 print 'Load image and run service'
-                if dockerctl.load_image(file_path) == True:
-                    print 'image%s is loaded ' %fileName
-                    if dockerctl.deployContainer(fileName) == False:
-                        print 'Image:%s cannot be deployed' %fileName
-                else:
-                    print 'image%s cannot be loaded' %fileName
+                if dockerctl.deployContainer(fileName) == False:
+                    print 'Image:%s cannot be deployed' %fileName
             else:
                 print 'This is not the last chunk, send subsequent Interest'
                 self._sendNextInterest(interestName, self.interestLifetime, 'pull')

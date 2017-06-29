@@ -1,9 +1,9 @@
 import json
 import os
-import pidict
 
-from modules.DataStore.dataStore import DataStore
-from modules.tools import dockerctl
+
+#from modules.DataStore.dataStore import DataStore
+#from modules.tools import dockerctl
 
 
 def test_multireturn (x):
@@ -14,8 +14,23 @@ def test_multireturn (x):
 number, boo = test_multireturn(1)
 print number
 print boo
-# script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
-# script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
+
+
+script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
+script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
+#parent_dir = os.path.dirname(os.path.normpath(script_dir))
+parent_dir = os.path.split(script_dir)[0]
+
+image_filename = 'uhttpd.tar'
+imagefile_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository', image_filename)
+print imagefile_path
+
+if os.path.exists(imagefile_path) == True:
+   print 'image file is already stored'
+else:
+   print 'image file is not here'
+
+
 # rel_path = "PIstatus/data.txt"
 # abs_file_path = os.path.join(script_dir, rel_path)
 #
