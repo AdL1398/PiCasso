@@ -100,8 +100,6 @@ class trigger(object):
         self.face.expressInterest(interest, None, None)  ## set None --> sent out only, don't wait for Data and Timeout
         print "Sent Push-Interest for %s" % uri
 
-
-
     def onTimeout(self, interest):
         name = interest.getName()
         uri = name.toUri()

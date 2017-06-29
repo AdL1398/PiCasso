@@ -38,7 +38,6 @@ script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
 script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
 parent_dir = os.path.split(script_dir)[0]
 SEG_repo_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository')
-imagefile_name = 'uhttpd.tar'
 
 
 serviceInfo = {
@@ -54,7 +53,7 @@ serviceInfo = {
                                   'component': ['debian.tar', 'python.tar', 'java.tar']}
                             }
 
-client = docker.APIClient(base_url='unix://var/run/docker.sock',version='auto')
+client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
 #client = docker.from_env(assert_hostname=False)
 pulling_flag = False
 path = "SEG_repository"
@@ -64,6 +63,7 @@ container_list = []
 def deployContainer(image_fileName):
     docker_image_name = serviceInfo[image_fileName]['image_name']
     docker_port_host = serviceInfo[image_fileName]['port_host']
+    #docker_port_host = get_freeport(image_fileName)
     docker_port_container = serviceInfo[image_fileName]['port_container']
 
     print 'Check docker Image Name: %s ' % docker_image_name
@@ -151,6 +151,11 @@ def has_imagefile(image_filename):
     else:
         print 'image file is not available in SEG repository'
         return False
+
+def get_freeport(image_fileName):
+    print 'searching for free port'
+    assigned_port = '8001'
+    return assigned_port
 
 def get_container_info(pi_status):
     """
