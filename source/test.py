@@ -35,7 +35,9 @@ print 'port 0 %i' %assigned_port[0]
 print 'port 1 %i' %assigned_port[1]
 
 free_port = modules.tools.dockerctl.get_freeport(1)
-print 'free port %s' %free_port
+print 'free port %d' %free_port
+print 'len %d' %len(assigned_port)
+print 'last port %d' %assigned_port[80]
 
 # rel_path = "PIstatus/data.txt"
 # abs_file_path = os.path.join(script_dir, rel_path)

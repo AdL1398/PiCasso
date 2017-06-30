@@ -64,41 +64,54 @@ def deployContainer(image_fileName, num_deployedContainer):
     #docker_port_host = serviceInfo[image_fileName]['port_host']
     docker_port_host = get_freeport(num_deployedContainer)
     docker_port_container = serviceInfo[image_fileName]['port_container']
-    print 'Check docker Image Name: %s ' % docker_image_name
-    print 'Port Host: %d' % docker_port_host
-    print 'Port Container %d' % docker_port_container
 
-    if is_image_running(docker_image_name) == True:
-        print 'Image: %s is already running' % docker_image_name
-        return True
-    else:
-        ##image is not running
-        ##check docker client has this image or not
-        print 'Image: %s is NOT running' % docker_image_name
-        if has_image(docker_image_name) == True:
-            ## has image but image is not running
-            print 'Image: %s is already stored' % docker_image_name
+    if docker_port_host != None:
+        print 'Check docker Image Name: %s ' % docker_image_name
+        print 'Port Host: %d' % docker_port_host
+        print 'Port Container %d' % docker_port_container
+
+        if is_image_running(docker_image_name) == True:
+            print 'Image: %s is already running' % docker_image_name
+            print 'Start Replicating Image:%s' % docker_image_name
             if run_image(docker_image_name, docker_port_host, docker_port_container) == True:
                 print 'Running docker image %s ...' % docker_image_name
+                return 'done'
             else:
                 print 'Error: Cannot run image %s' % docker_image_name
-            return True
-
-        elif has_imagefile(image_fileName) == True :
-            print 'Load image from local repository'
-
-            if (load_image(image_fileName)==True):
-                print 'Image %s is loaded' %image_fileName
+                return 'error'
+        else:
+            ##image is not running
+            ##check docker client has this image or not
+            print 'Image: %s is NOT running' % docker_image_name
+            if has_image(docker_image_name) == True:
+                ## has image but image is not running
+                print 'Image: %s is already stored' % docker_image_name
                 if run_image(docker_image_name, docker_port_host, docker_port_container) == True:
                     print 'Running docker image %s ...' % docker_image_name
+                    return 'done'
                 else:
                     print 'Error: Cannot run image %s' % docker_image_name
-                return True
-        else:
-            print 'Image: %s is not stored, pull from SC' % docker_image_name
-            ### Call sendNextInterest to SC
-            #prefix.requestService = (self.prefix_serviceMigration.append(Name(fileName)))
-            return False
+                    return 'error'
+
+            elif has_imagefile(image_fileName) == True :
+                print 'Load image from local repository'
+
+                if (load_image(image_fileName)==True):
+                    print 'Image %s is loaded' %image_fileName
+                    if run_image(docker_image_name, docker_port_host, docker_port_container) == True:
+                        print 'Running docker image %s ...' % docker_image_name
+                        return 'done'
+                    else:
+                        print 'Error: Cannot run image %s' % docker_image_name
+                        return 'error'
+            else:
+                print 'Image: %s is not stored, pull from SC' % docker_image_name
+                ### Call sendNextInterest to SC
+                #prefix.requestService = (self.prefix_serviceMigration.append(Name(fileName)))
+                return 'pull_image'
+    else:
+        print 'Cannot deploy a new container'
+        return 'error'
 
 def run_image(image_name, port_host, port_container):
     print time.strftime("%a, %d %b %Y %X +0000", time.gmtime())
@@ -151,9 +164,14 @@ def has_imagefile(image_filename):
         return False
 
 def get_freeport(num_con):
-    print 'searching for free port'
-    free_port = assigned_port[num_con+1]
-    return str(free_port)
+    if num_con+1 < len(assigned_port):
+        free_port = assigned_port[num_con+1]
+        print 'Free port = %d' %free_port
+        free_port = assigned_port[num_con+1]
+        return free_port
+    else:
+        print 'Run out of port'
+        return None
 
 def get_container_info(pi_status):
     """

@@ -30,7 +30,7 @@ class ServiceManager(object):
     def __init__(self):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
-        self.namePrefix_DE = '/picasso/trigger/'
+        self.namePrefix_DE = '/picasso/service_deployment_pull/'
         self.monitoring_frequency = 10
 
     def run(self):
@@ -41,9 +41,9 @@ class ServiceManager(object):
             #instantiate Grafana
             #Create Thread
             stopFlag = Event()
-            print 'Start Monitoring Manager'
-            SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            SEG1_monitoring.start()
+            #print 'Start Monitoring Manager'
+            #SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            #SEG1_monitoring.start()
 
             print 'Start Decision Engine'
             Decision_engine = DecisionEngine_Thread(2, "DecisionEngine-Thread", self.namePrefix_DE)

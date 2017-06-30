@@ -78,14 +78,19 @@ class ServiceExecution(object):
             ## check image is running or not
             #Ger info from serviceInfo
             #serviceName = 'web-uhttpd'
-            if dockerctl.deployContainer(image_fileName, self.num_con) == False:
+            deployment_status = dockerctl.deployContainer(image_fileName, self.num_deployedContainer)
+            if  deployment_status == 'pull_image':
                 print 'Service: %s is not locally cached, pull from Repo' % image_fileName
                 prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
                 print 'Sending Interest message: %s' % prefix_pullImage
                 self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
-            else:
+            elif deployment_status == 'done':
                 print 'Service:%s is successfully deployed' %image_fileName
                 self.num_deployedContainer += 1
+            elif deployment_status == 'error':
+                print 'Error in deployment process'
+            else:
+                print 'Code bug'
         else:
             print "Interest name mismatch"
 
@@ -129,7 +134,7 @@ class ServiceExecution(object):
             last_segment, interestName = ndnMessage_Helper.extractData_message(abs_path, fileName, data)
             if last_segment == True:
                 print 'Load image and run service'
-                if dockerctl.deployContainer(fileName) == False:
+                if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
                     print 'Image:%s cannot be deployed' %fileName
             else:
                 print 'This is not the last chunk, send subsequent Interest'

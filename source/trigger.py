@@ -44,11 +44,11 @@ class trigger(object):
         prefix_serviceMigration_KEBAPP = "/kebapp/maps/routefinder/"
         self.prefix_serviceMigration_KEBAPP = Name(prefix_serviceMigration_KEBAPP)
 
-        prefix_DE = "/picasso/service_deployment_push/SEG_1/uhttpd.tar/"
+        prefix_DE = "/picasso/start_de/"
         self.prefix_DE = Name(prefix_DE)
 
-        prefix_deployment_pull = "/picasso/service_deployment_pull/"
-        self.prefix_deployment_pull = Name(prefix_deployment_pull)
+        #prefix_deployment_pull = "/picasso/service_deployment_pull/"
+        #self.prefix_deployment_pull = Name(prefix_deployment_pull)
 
         # Default configuration of NDN
         self.outstanding = dict()
@@ -58,8 +58,8 @@ class trigger(object):
 
         self.face.setCommandSigningInfo(self.keyChain, \
                                         self.keyChain.getDefaultCertificateName())
-        self.face.registerPrefix(self.prefix_deployment_pull, self.onInterest_PullService, self.onRegisterFailed)
-        print "Registering prefix : " + self.prefix_deployment_pull.toUri()
+        #self.face.registerPrefix(self.prefix_deployment_pull, self.onInterest_PullService, self.onRegisterFailed)
+        #print "Registering prefix : " + self.prefix_deployment_pull.toUri()
 
     def run(self):
         try:
@@ -79,9 +79,9 @@ class trigger(object):
                 print 'Try Again'
             self.sendPushInterest(name_prefix)
 
-            while not self.isDone:
-                self.face.processEvents()
-                time.sleep(0.01)
+            # while not self.isDone:
+            #     self.face.processEvents()
+            #     time.sleep(0.01)
 
         except RuntimeError as e:
             print "ERROR: %s" % e

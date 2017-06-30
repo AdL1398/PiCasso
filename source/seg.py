@@ -1,4 +1,5 @@
 import sys
+import os
 import traceback
 from pprint import pprint
 from modules.DataStore.dataStore import DataStore
@@ -24,6 +25,7 @@ class SEG(object):
     def run(self):
         try:
             exitFlag = 0
+            os.system("docker rm -f $(docker ps -a -q)")
             print "Start %s" %self.seg_ID
             monitoring_agent = MonitoringAgent_Thread(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
             monitoring_agent.start()
