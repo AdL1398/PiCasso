@@ -36,14 +36,14 @@ class ServiceManager(object):
     def run(self):
         try:
             #instantiate DB here
-            #print 'Instantiate monitoring DB'
-            #os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
+            print 'Instantiate monitoring DB'
+            os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
             #instantiate Grafana
-            # Create Thread
-            # stopFlag = Event()
-            # print 'Start Monitoring Manager'
-            # SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            # SEG1_monitoring.start()
+            #Create Thread
+            stopFlag = Event()
+            print 'Start Monitoring Manager'
+            SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            SEG1_monitoring.start()
 
             print 'Start Decision Engine'
             Decision_engine = DecisionEngine_Thread(2, "DecisionEngine-Thread", self.namePrefix_DE)

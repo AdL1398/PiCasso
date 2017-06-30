@@ -9,8 +9,7 @@ source          :
 author          : Adisorn Lertsinsrubtavee 
 date            : 15 Feb 2017
 version         : 1.0
-contributors    : Carlos Molina-Jimenez
-usage           :  
+usage           :
 notes           :
 compile and run : It is a python module imported by a main python programme. 
 python_version  : Python 2.7.12 
@@ -38,7 +37,7 @@ script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
 script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
 parent_dir = os.path.split(script_dir)[0]
 SEG_repo_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository')
-
+assigned_port = list(range(8000, 8080))
 
 serviceInfo = {
             'umobile-store-nano-rpi.tar': {
@@ -60,12 +59,11 @@ path = "SEG_repository"
 info = {}
 container_list = []
 
-def deployContainer(image_fileName):
+def deployContainer(image_fileName, num_deployedContainer):
     docker_image_name = serviceInfo[image_fileName]['image_name']
-    docker_port_host = serviceInfo[image_fileName]['port_host']
-    #docker_port_host = get_freeport(image_fileName)
+    #docker_port_host = serviceInfo[image_fileName]['port_host']
+    docker_port_host = get_freeport(num_deployedContainer)
     docker_port_container = serviceInfo[image_fileName]['port_container']
-
     print 'Check docker Image Name: %s ' % docker_image_name
     print 'Port Host: %d' % docker_port_host
     print 'Port Container %d' % docker_port_container
@@ -152,10 +150,10 @@ def has_imagefile(image_filename):
         print 'image file is not available in SEG repository'
         return False
 
-def get_freeport(image_fileName):
+def get_freeport(num_con):
     print 'searching for free port'
-    assigned_port = '8001'
-    return assigned_port
+    free_port = assigned_port[num_con+1]
+    return str(free_port)
 
 def get_container_info(pi_status):
     """

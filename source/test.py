@@ -1,6 +1,6 @@
 import json
 import os
-
+import modules.tools.dockerctl
 
 #from modules.DataStore.dataStore import DataStore
 #from modules.tools import dockerctl
@@ -30,6 +30,12 @@ if os.path.exists(imagefile_path) == True:
 else:
    print 'image file is not here'
 
+assigned_port = list(range(8000, 8080))
+print 'port 0 %i' %assigned_port[0]
+print 'port 1 %i' %assigned_port[1]
+
+free_port = modules.tools.dockerctl.get_freeport(1)
+print 'free port %s' %free_port
 
 # rel_path = "PIstatus/data.txt"
 # abs_file_path = os.path.join(script_dir, rel_path)

@@ -48,6 +48,7 @@ class ServiceExecution(object):
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
         self.interestLifetime = 12000
+        self.num_deployedContainer = 0
         folder_name = "SEG_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)
         if not os.path.exists(rel_path):
@@ -77,11 +78,14 @@ class ServiceExecution(object):
             ## check image is running or not
             #Ger info from serviceInfo
             #serviceName = 'web-uhttpd'
-            if dockerctl.deployContainer(image_fileName) == False:
+            if dockerctl.deployContainer(image_fileName, self.num_con) == False:
                 print 'Service: %s is not locally cached, pull from Repo' % image_fileName
                 prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
                 print 'Sending Interest message: %s' % prefix_pullImage
                 self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
+            else:
+                print 'Service:%s is successfully deployed' %image_fileName
+                self.num_deployedContainer += 1
         else:
             print "Interest name mismatch"
 
