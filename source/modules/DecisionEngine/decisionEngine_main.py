@@ -18,6 +18,8 @@ python_version  : Python 2.7.12
 """
 import os
 import time
+from de import de
+import migrationfunc
 from pyndn import Data
 from pyndn import Face
 from pyndn import Interest
@@ -43,6 +45,24 @@ class DecisionEngine(object):
         rel_path = os.path.join(self.script_dir, folder_name)
         prefix_startDE = "/picasso/start_de/"
         self.prefix_startDE = Name(prefix_startDE)
+        self.prefix_deployService = '/picasso/service_deployment_push/'
+
+        self.json_server_Spec_default= { # This is only an skeleton
+                                    'par':{ #  service parameters
+                                    'serviceName':  'nameOfService',
+                                    'imageName':    'NameOfImageToIstantiateService',
+                                    'imageSize':    'sizeOfImage',
+                                    'maxConReq':    'maxNumConcurrentRequestsThatAnIntanceCanHandle',
+                                    'startUpTime':  'timeToInstatiateService'
+                                    },
+                                    'QoS':{ #QoS parameters expected from the service
+                                    'responseTime':  'resposeTimeExpectedFromService',
+                                    'availability': 'availabilityExpectedFromService',
+                                    'numConReq':     'numConcurrentRequestsToBeHandledByService'
+                                    }
+                                  }
+
+
 
         if not os.path.exists(rel_path):
             os.makedirs(rel_path)
@@ -73,21 +93,29 @@ class DecisionEngine(object):
 
     def onInterest_StartDE(self, prefix, interest, face, interestFilterId, filter):
         interestName = interest.getName()
-        data = Data(interestName)
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
         if "start_de" in interest_name_components:
             print 'Query database'
             print 'Call decision engine algorithm'
+            parent_dir = os.path.split(self.script_dir)[0]
+            monitor_path = os.path.join(self.script_dir, parent_dir, 'Monitoring', 'Monitoring_DB')
+            #print 'Monitorpath %s', monitor_path
+            print monitor_path
+            #folder_name = 'SC_monitor'
+            #monitor_path = os.path.join(self.script_dir, folder_name)
+            myDE = de(monitor_path)
+            json_lst_dict = myDE.get_lst_of_dictionaries()
+            json_server_Spec = self.json_server_Spec_default
+            node_name= myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
+            print 'Selected Host Name %s' %node_name
+
             ### Outputs from algorithm
-            node_name = 'SEG_1'
+            #node_name = 'SEG_1'
             service_name = 'uhttpd.tar'
             print 'Start service deployment'
-            #prefix_deployService = "/picasso/service_deployment_push/SEG_1/uhttpd.tar/"
-            prefix_deployService = '/picasso/service_deployment_push/' + node_name + '/' + service_name
-            ### Service description is prepared at the SEG node ##
-            ### Need to be updated later, DE could send description to the DE
-            config_prefix_deployService = Name(prefix_deployService)
+            deployService = self.prefix_deployService + node_name + '/' + service_name
+            config_prefix_deployService = Name(deployService)
             interest = Interest(config_prefix_deployService)
             interest.setInterestLifetimeMilliseconds(self.interestLifetime)
             interest.setMustBeFresh(True)
@@ -102,6 +130,7 @@ class DecisionEngine(object):
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
         if "service_deployment_pull" in interest_name_components:
+            ## Extract filename from Interest name
             filename = "uhttpd.tar"
             folder_name = "SC_repository/"
             rel_path = os.path.join(self.script_dir, folder_name)

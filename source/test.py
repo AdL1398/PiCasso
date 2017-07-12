@@ -23,21 +23,22 @@ parent_dir = os.path.split(script_dir)[0]
 
 image_filename = 'uhttpd.tar'
 imagefile_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository', image_filename)
-print imagefile_path
+print 'parent dir %s', parent_dir
+print 'target dir %s', imagefile_path
 
 if os.path.exists(imagefile_path) == True:
    print 'image file is already stored'
 else:
    print 'image file is not here'
 
-assigned_port = list(range(8000, 8080))
-print 'port 0 %i' %assigned_port[0]
-print 'port 1 %i' %assigned_port[1]
-
-free_port = modules.tools.dockerctl.get_freeport(1)
-print 'free port %d' %free_port
-print 'len %d' %len(assigned_port)
-print 'last port %d' %assigned_port[80]
+# assigned_port = list(range(8000, 8080))
+# print 'port 0 %i' %assigned_port[0]
+# print 'port 1 %i' %assigned_port[1]
+#
+# free_port = modules.tools.dockerctl.get_freeport(1)
+# print 'free port %d' %free_port
+# print 'len %d' %len(assigned_port)
+# print 'last port %d' %assigned_port[80]
 
 # rel_path = "PIstatus/data.txt"
 # abs_file_path = os.path.join(script_dir, rel_path)
