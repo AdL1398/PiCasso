@@ -1,7 +1,7 @@
-from monitoringAgent import Monitoring_Agent
+from monitoringAgent import Monitoring_Agent_Main
 import threading
 
-class MonitoringAgent_Thread (threading.Thread):
+class Monitoring_Agent(threading.Thread):
    def __init__(self, threadID, threadName, producerName, namePrefix):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -12,7 +12,7 @@ class MonitoringAgent_Thread (threading.Thread):
 
    def run(self):
       print "Starting " + self.threadname
-      monitoring_agent = Monitoring_Agent(self.namePrefix, self.producerName)
+      monitoring_agent = Monitoring_Agent_Main(self.namePrefix, self.producerName)
       monitoring_agent.run()
       print "Exiting " + self.threadname
 

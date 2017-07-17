@@ -3,8 +3,8 @@ import os
 import traceback
 from pprint import pprint
 from modules.DataStore.dataStore import DataStore
-from modules.ServiceExecution.serviceExecution_thread import ServiceExecution_Thread
-from modules.Monitoring.monitoringAgent_thread import MonitoringAgent_Thread
+from modules.ServiceExecution.serviceExecution_thread import Service_Execution
+from modules.Monitoring.monitoringAgent_thread import Monitoring_Agent
 
 
 class SEG(object):
@@ -13,24 +13,17 @@ class SEG(object):
         self.seg_ID = node_id
         self.namePrefix_Monitor = '/picasso/monitoring/' + self.seg_ID
         self.namePrefix_SE = '/picasso/service_deployment_push/' + self.seg_ID
-        #type = 'function'
-        #content = 'monitoring'
-        #self.DS.putDataStore(self.namePrefix1, type, content)
-        #print DS.table
-        #print 'add content name: %s' %self.namePrefix1
-        #print 'Content type: %s' %self.DS.getDataStore_Type(self.namePrefix1)
-        #print 'Content: %s' %self.DS.getDataStore_Content(self.namePrefix1)
-        #self.DS.creaDataStore_json(self.DS.table)
+
 
     def run(self):
         try:
             exitFlag = 0
             os.system("docker rm -f $(docker ps -a -q)")
             print "Start %s" %self.seg_ID
-            monitoring_agent = MonitoringAgent_Thread(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
-            monitoring_agent.start()
+            #monitoring_agent = Monitoring_Agent(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
+            #monitoring_agent.start()
 
-            serviceExecution_agent = ServiceExecution_Thread(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
+            serviceExecution_agent = Service_Execution(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
             serviceExecution_agent.start()
 
             #print "Exiting Main Thread"

@@ -37,7 +37,7 @@ from modules.tools import dockerctl
 from modules.tools.enumerate_publisher import EnumeratePublisher
 
 
-class MonitoringManager(object):
+class MonitoringManager_Main(object):
     def __init__(self, name):
         self.outstanding = dict()
         self.isDone = False

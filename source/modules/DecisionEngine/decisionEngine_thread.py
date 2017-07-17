@@ -15,9 +15,9 @@ python_version  : Python 2.7.12
 """
 
 import threading
-from decisionEngine_main import DecisionEngine
+from decisionEngine_main import Decision_Engine_Main
 
-class DecisionEngine_Thread (threading.Thread):
+class Decision_Engine (threading.Thread):
    def __init__(self, threadID, threadName, namePrefix):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -26,6 +26,6 @@ class DecisionEngine_Thread (threading.Thread):
 
    def run(self):
       print "Starting " + self.threadname
-      decision_engine = DecisionEngine(self.namePrefix)
+      decision_engine = Decision_Engine_Main(self.namePrefix)
       decision_engine.run()
       print "Exiting " + self.threadname

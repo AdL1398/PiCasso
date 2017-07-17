@@ -14,11 +14,11 @@ python_version  : Python 2.7.12
 ====================================================
 """
 
-from monitoringManager_main import MonitoringManager
+from monitoringManager_main import MonitoringManager_Main
 import threading
 
 
-class MonitoringThread (threading.Thread):
+class Monitoring_Manager (threading.Thread):
    def __init__(self, threadID, name, counter, namePrefix, event, monitoring_frequency):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -34,7 +34,7 @@ class MonitoringThread (threading.Thread):
       while not self.stopped.wait(self.monitoring_frequency):
          print "creating thread for: %s" %self.namePrefix
          # call a function
-         monitoringManager = MonitoringManager(self.namePrefix)
+         monitoringManager = MonitoringManager_Main(self.namePrefix)
          monitoringManager.run()
       print "Exiting " + self.name
 

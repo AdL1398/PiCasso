@@ -14,11 +14,11 @@ python_version  : Python 2.7.12
 ====================================================
 """
 
-from serviceExecution_main import ServiceExecution
+from serviceExecution_main import Service_Execution_Main
 import threading
 
 
-class ServiceExecution_Thread (threading.Thread):
+class Service_Execution(threading.Thread):
    def __init__(self, threadID, threadName, producerName, namePrefix, ):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -28,7 +28,7 @@ class ServiceExecution_Thread (threading.Thread):
 
    def run(self):
       print "Starting " + self.threadname
-      service_execution = ServiceExecution(self.producerName, self.namePrefix, )
+      service_execution = Service_Execution_Main(self.producerName, self.namePrefix, )
       service_execution.run()
       print "Exiting " + self.threadname
 

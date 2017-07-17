@@ -22,8 +22,8 @@ import time
 import traceback
 from threading import Timer, Thread, Event
 
-from modules.DecisionEngine.decisionEngine_thread import DecisionEngine_Thread
-from modules.Monitoring.monitoringManager_thread import MonitoringThread
+from modules.DecisionEngine.decisionEngine_thread import Decision_Engine
+from modules.Monitoring.monitoringManager_thread import Monitoring_Manager
 
 
 class ServiceManager(object):
@@ -43,18 +43,18 @@ class ServiceManager(object):
             #Create Thread
             stopFlag = Event()
             print 'Start Monitoring Manager'
-            SEG1_monitoring = MonitoringThread(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            SEG1_monitoring.start()
+            #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            #SEG1_monitoring.start()
 
-            SEG2_monitoring = MonitoringThread(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
-            SEG2_monitoring.start()
+            #SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
+            #SEG2_monitoring.start()
 
-            SEG3_monitoring = MonitoringThread(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
-            SEG3_monitoring.start()
+            #SEG3_monitoring = MonitoringThread_Manager(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
+            #SEG3_monitoring.start()
 
             print 'Start Decision Engine'
-            Decision_engine = DecisionEngine_Thread(4, "DecisionEngine-Thread", self.namePrefix_DE)
-            Decision_engine.start()
+            DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
+            DE.start()
 
         except RuntimeError as e:
             print "ERROR: %s" %  e

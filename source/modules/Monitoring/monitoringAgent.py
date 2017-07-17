@@ -34,7 +34,7 @@ from modules.tools.enumerate_publisher import EnumeratePublisher
 from modules.tools.termopi import termopi # class with dictionary data structure
 
 
-class Monitoring_Agent(object):
+class Monitoring_Agent_Main(object):
     def __init__(self, namePrefix, producerName):
         self.configPrefix = Name(namePrefix)
         self.outstanding = dict()

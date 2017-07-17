@@ -1,1 +1,0 @@
-{"softResources": {"OS": "Linux"}, "hardResources": {"mem": "1", "disk": "32", "cpu": "A 1.2GHz 64-bit quad-core ARMv8 CPU"}, "resourceUsage": {"cpuLoad": "2", "memUsage": "20", "cpuUsage": "31"}, "PiID": "SEG_1", "PiIP": "192.0.0.1", "containers": []}

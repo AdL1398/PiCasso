@@ -36,7 +36,7 @@ from modules.tools.enumerate_publisher import EnumeratePublisher
 from modules.tools.termopi import termopi # class with dictionary data structure
 
 
-class ServiceExecution(object):
+class Service_Execution_Main(object):
     def __init__(self, producerName, namePrefix):
         self.configPrefix = Name(namePrefix)
         self.Datamessage_size = 8000 #8kB --> Max Size from NDN standard

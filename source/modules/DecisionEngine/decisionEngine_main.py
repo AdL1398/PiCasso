@@ -31,7 +31,7 @@ from modules.tools import dockerctl
 from modules.tools.enumerate_publisher import EnumeratePublisher
 
 
-class DecisionEngine(object):
+class Decision_Engine_Main(object):
     def __init__(self, namePrefix):
         self.outstanding = dict()
         self.isDone = False
@@ -46,7 +46,6 @@ class DecisionEngine(object):
         prefix_startDE = "/picasso/start_de/"
         self.prefix_startDE = Name(prefix_startDE)
         self.prefix_deployService = '/picasso/service_deployment_push/'
-
         self.json_server_Spec_default= { # This is only an skeleton
                                     'par':{ #  service parameters
                                     'serviceName':  'nameOfService',
@@ -96,22 +95,17 @@ class DecisionEngine(object):
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
         if "start_de" in interest_name_components:
-            print 'Query database'
+            #print 'Query database'
             print 'Call decision engine algorithm'
             parent_dir = os.path.split(self.script_dir)[0]
             monitor_path = os.path.join(self.script_dir, parent_dir, 'Monitoring', 'Monitoring_DB')
-            #print 'Monitorpath %s', monitor_path
             print monitor_path
-            #folder_name = 'SC_monitor'
-            #monitor_path = os.path.join(self.script_dir, folder_name)
             myDE = de(monitor_path)
             json_lst_dict = myDE.get_lst_of_dictionaries()
             json_server_Spec = self.json_server_Spec_default
-            node_name= myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
+            node_name = myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
             print 'Selected Host Name %s' %node_name
-
-            ### Outputs from algorithm
-            #node_name = 'SEG_1'
+            ### User will add this parameter via trigger
             service_name = 'uhttpd.tar'
             print 'Start service deployment'
             deployService = self.prefix_deployService + node_name + '/' + service_name
