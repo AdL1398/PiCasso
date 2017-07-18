@@ -126,8 +126,9 @@ class Decision_Engine_Main(object):
         if "service_deployment_pull" in interest_name_components:
             ## Extract filename from Interest name
             filename = "uhttpd.tar"
-            folder_name = "SC_repository/"
-            rel_path = os.path.join(self.script_dir, folder_name)
+            folder_name = "ServiceRepo/SC_repository/"
+            parent_dir = os.path.split(self.script_dir)[0]
+            rel_path = os.path.join(parent_dir, folder_name)
             if not os.path.exists(rel_path):
                 os.makedirs(rel_path)
             abs_file_path = os.path.join(rel_path, filename)
