@@ -22,8 +22,9 @@ import time
 import traceback
 from threading import Timer, Thread, Event
 
-from modules.DecisionEngine.decisionEngine_thread import Decision_Engine
-from modules.Monitoring.monitoringManager_thread import Monitoring_Manager
+#from modules.DecisionEngine.decisionEngine_thread import Decision_Engine
+#from modules.Monitoring.monitoringManager_thread import Monitoring_Manager
+from modules.ServiceRepo.serviceRepo_thread import Service_Repo
 
 
 class ServiceManager(object):
@@ -42,7 +43,7 @@ class ServiceManager(object):
             #instantiate Grafana
             #Create Thread
             stopFlag = Event()
-            print 'Start Monitoring Manager'
+            #print 'Start Monitoring Manager'
             #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
             #SEG1_monitoring.start()
 
@@ -52,9 +53,12 @@ class ServiceManager(object):
             #SEG3_monitoring = MonitoringThread_Manager(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
             #SEG3_monitoring.start()
 
-            print 'Start Decision Engine'
-            DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
-            DE.start()
+            # print 'Start Decision Engine'
+            # DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
+            # DE.start()
+
+            ServiceRepo = Service_Repo(5, "ServiceRepo-Thread", 2200)
+            ServiceRepo.start()
 
         except RuntimeError as e:
             print "ERROR: %s" %  e
