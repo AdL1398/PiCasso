@@ -187,7 +187,7 @@ def get_container_info(pi_status):
         cpuUsage_str = cpuUsage.replace("\n", "")
         cpuUsage_str = cpuUsage_str.replace("%", "")
 
-        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $8}\' " % (container['Id'], container['Id'])
+        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $6}\' " % (container['Id'], container['Id'])
         memUsage = system_call(cmd)
         memUsage_str = memUsage.replace("\n", "")
         memUsage_str = memUsage_str.replace("%", "")

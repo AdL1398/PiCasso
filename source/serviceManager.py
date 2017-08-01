@@ -22,8 +22,8 @@ import time
 import traceback
 from threading import Timer, Thread, Event
 
-#from modules.DecisionEngine.decisionEngine_thread import Decision_Engine
-#from modules.Monitoring.monitoringManager_thread import Monitoring_Manager
+from modules.DecisionEngine.decisionEngine_thread import Decision_Engine
+from modules.Monitoring.monitoringManager_thread import Monitoring_Manager
 from modules.ServiceRepo.serviceRepo_thread import Service_Repo
 
 
@@ -43,9 +43,9 @@ class ServiceManager(object):
             #instantiate Grafana
             #Create Thread
             stopFlag = Event()
-            #print 'Start Monitoring Manager'
-            #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            #SEG1_monitoring.start()
+            print 'Start Monitoring Manager'
+            SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            SEG1_monitoring.start()
 
             #SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
             #SEG2_monitoring.start()
@@ -54,8 +54,8 @@ class ServiceManager(object):
             #SEG3_monitoring.start()
 
             # print 'Start Decision Engine'
-            # DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
-            # DE.start()
+            DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
+            DE.start()
 
             ServiceRepo = Service_Repo(5, "ServiceRepo-Thread", 2200)
             ServiceRepo.start()

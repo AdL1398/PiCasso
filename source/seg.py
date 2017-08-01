@@ -20,11 +20,11 @@ class SEG(object):
             exitFlag = 0
             os.system("docker rm -f $(docker ps -a -q)")
             print "Start %s" %self.seg_ID
-            #monitoring_agent = Monitoring_Agent(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
-            #monitoring_agent.start()
+            monitoring_agent = Monitoring_Agent(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
+            monitoring_agent.start()
 
-            serviceExecution_agent = Service_Execution(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
-            serviceExecution_agent.start()
+            #serviceExecution_agent = Service_Execution(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
+            #serviceExecution_agent.start()
 
             #print "Exiting Main Thread"
 
