@@ -23,8 +23,8 @@ class SEG(object):
             monitoring_agent = Monitoring_Agent(1, "Thread-Monitoring", self.seg_ID, self.namePrefix_Monitor)
             monitoring_agent.start()
 
-            #serviceExecution_agent = Service_Execution(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
-            #serviceExecution_agent.start()
+            serviceExecution_agent = Service_Execution(1, "Thread-SE", self.seg_ID, self.namePrefix_SE)
+            serviceExecution_agent.start()
 
             #print "Exiting Main Thread"
 

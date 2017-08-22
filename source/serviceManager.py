@@ -43,9 +43,9 @@ class ServiceManager(object):
             #instantiate Grafana
             #Create Thread
             stopFlag = Event()
-            print 'Start Monitoring Manager'
-            SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            SEG1_monitoring.start()
+            #print 'Start Monitoring Manager'
+            #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            #SEG1_monitoring.start()
 
             #SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
             #SEG2_monitoring.start()
