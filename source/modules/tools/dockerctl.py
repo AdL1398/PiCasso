@@ -40,7 +40,7 @@ SEG_repo_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_re
 assigned_port = list(range(8000, 8080))
 
 serviceInfo = {
-            'umobile-store-nano-rpi.tar': {
+            'umobilestore.tar': {
                                   'image_name':'al1309/umobile-store-nano-rpi:latest',
                                   'port_host': 80,
                                   'port_container': 80,

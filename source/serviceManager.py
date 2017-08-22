@@ -39,6 +39,7 @@ class ServiceManager(object):
         try:
             #instantiate DB here
             print 'Instantiate monitoring DB'
+            os.system("docker rm -f $(docker ps -a -q)")
             os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
             #instantiate Grafana
             #Create Thread

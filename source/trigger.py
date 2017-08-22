@@ -45,7 +45,7 @@ class trigger(object):
         self.prefix_serviceMigration_KEBAPP = Name(prefix_serviceMigration_KEBAPP)
 
         self.prefix_DE = "/picasso/start_de/"
-        self.prefix_DE = Name(prefix_DE)
+
 
         #prefix_deployment_pull = "/picasso/service_deployment_pull/"
         #self.prefix_deployment_pull = Name(prefix_deployment_pull)
@@ -68,24 +68,38 @@ class trigger(object):
             print 'Available services'
             print '   (1) uhttpd'
             print '   (2) umobilestore'
-            service_name = raw_input('Choose service to be deployed')
+            input = raw_input('Choose service to be deployed (type number, e.g., 1): ')
 
-            if service_name == 'uhttpd':
-                print 'Start deploying uhttpd'
-            if service_name == 'umobilestore':
-                print 'Start deploying umobilestore'
+            if input == '1':
+                print 'Start deploy uhttpd service'
+                service_name = 'uhttpd'
+            elif input == '2':
+                print 'Start deploy umobilestore service'
+                service_name = 'umobilestore'
             else:
                 print 'Chosen service is not available'
-            name_prefix = self.prefix_DE+service_name+'.tar'
-            self.sendPushInterest(name_prefix)
 
-            # while not self.isDone:
-            #     self.face.processEvents()
-            #     time.sleep(0.01)
+            name_prefix = self.prefix_DE + service_name + '.tar'
+            print 'name prefix: %s' % name_prefix
+            self.sendPushInterest(Name(name_prefix))
+
 
         except RuntimeError as e:
             print "ERROR: %s" % e
 
+    def sendPushInterest(self, name):
+        interest = Interest(name)
+        interestName = interest.getName()
+
+        interest.setInterestLifetimeMilliseconds(4000)
+        interest.setMustBeFresh(True)
+
+        #if uri not in self.outstanding:
+            #self.outstanding[uri] = 1
+
+        # self.face.expressInterest(interest, self.onData, self._onTimeout)
+        self.face.expressInterest(interest, None, None)  ## set None --> sent out only, don't wait for Data and Timeout
+        print "Sent Push-Interest for %s" % interestName
 
 if __name__ == '__main__':
 
