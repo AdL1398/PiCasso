@@ -106,7 +106,8 @@ class Decision_Engine_Main(object):
             node_name = myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
             print 'Selected Host Name %s' %node_name
             ### User will add this parameter via trigger
-            service_name = 'uhttpd.tar'
+            service_name = interest_name_components[interest_name_components.index("service_deployment_push") + 2]
+            #service_name = 'uhttpd.tar'
             print 'Start service deployment'
             deployService = self.prefix_deployService + node_name + '/' + service_name
             config_prefix_deployService = Name(deployService)
