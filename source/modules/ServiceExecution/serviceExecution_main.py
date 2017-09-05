@@ -39,7 +39,7 @@ from modules.tools.termopi import termopi # class with dictionary data structure
 class Service_Execution_Main(object):
     def __init__(self, producerName, namePrefix):
         self.configPrefix = Name(namePrefix)
-        self.Datamessage_size = 8000 #8kB --> Max Size from NDN standard
+        self.Datamessage_size = 1800000 #8kB --> Max Size from NDN standard
         self.producerName = producerName
         self.outstanding = dict()
         self.isDone = False
@@ -126,7 +126,7 @@ class Service_Execution_Main(object):
         dataName_size = dataName.size()
         print "Received data name: ", dataName.toUri()
         data_name_components = dataName.toUri().split("/")
-        
+
         if "service_deployment_pull" in data_name_components:
             #fileName = data_name_components[data_name_components.index("install") + 1]
             fileName = data_name_components[data_name_components.index("service_deployment_pull") + 1]
@@ -137,8 +137,8 @@ class Service_Execution_Main(object):
             file_path = os.path.join(abs_path, fileName)
             if self.request_SubsequenceDataChunk(abs_path, fileName, data, self.window) == True:
                 print 'Load image and run service'
-                if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
-                    print 'Image:%s cannot be deployed' %fileName
+                #if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
+                    #print 'Image:%s cannot be deployed' %fileName
         else:
              print "function is not yet ready"
 

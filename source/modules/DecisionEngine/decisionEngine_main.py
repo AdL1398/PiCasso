@@ -41,7 +41,7 @@ class Decision_Engine_Main(object):
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
         self.interestLifetime = 12000
-        self.Datamessage_size = 8000
+        self.Datamessage_size = 1800000
         folder_name = "SC_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)
         prefix_startDE = "/picasso/start_de/"
@@ -79,7 +79,8 @@ class Decision_Engine_Main(object):
             #### This face is for testing propose
             self.face.setCommandSigningInfo(self.keyChain, self.keyChain.getDefaultCertificateName())
             self.face.registerPrefix(self.prefix_startDE, self.onInterest_StartDE, self.onRegisterFailed)
-
+            Max = self.face.getMaxNdnPacketSize()
+            print 'Maxsize: ', Max
             print "Registered prefix : " + self.configPrefix.toUri()
 
             while not self.isDone:
@@ -165,6 +166,7 @@ class Decision_Engine_Main(object):
             # So Here segment size is hard coded to 5000 KB.
             # Class Enumerate publisher is used to split large files into segments and get a required segment ( segment numbers started from 0)
             dataSegment, last_segment_num = EnumeratePublisher(file_path, self.Datamessage_size, SegmentNum).getFileSegment()
+            print 'SegmentNum:%s last_segment_num: %s' % (SegmentNum, last_segment_num)
             # create the DATA name appending the segment number
             dataName = dataName.appendSegment(SegmentNum)
             data = Data(dataName)
