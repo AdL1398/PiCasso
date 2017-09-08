@@ -68,6 +68,7 @@ class trigger(object):
             print 'Available services'
             print '   (1) uhttpd'
             print '   (2) umobilestore'
+            print '   (3) cloudrone_WestCambridge'
             input = raw_input('Choose service to be deployed (type number, e.g., 1): ')
 
             if input == '1':
@@ -76,6 +77,9 @@ class trigger(object):
             elif input == '2':
                 print 'Start deploy umobilestore service'
                 service_name = 'umobilestore'
+            elif input == '3':
+                print 'Start deploy cloudrone_WestCambridge'
+                service_name = 'cloudrone_WestCambridge'
             else:
                 print 'Chosen service is not available'
 
