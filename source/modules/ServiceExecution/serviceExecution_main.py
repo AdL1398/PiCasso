@@ -39,7 +39,10 @@ import string
 class Service_Execution_Main(object):
     def __init__(self, producerName, namePrefix):
         self.configPrefix = Name(namePrefix)
+        prefix_pullService = "/picasso/pull_Service/"
+        self.prefix_pullService = Name(prefix_pullService)
         self.Datamessage_size = 1900000 #8kB --> Max Size from NDN standard
+        self.window = 4
         self.producerName = producerName
         self.outstanding = dict()
         self.isDone = False
@@ -51,7 +54,7 @@ class Service_Execution_Main(object):
         self.num_deployedContainer = 0
         self.lastChunk_window = 0
         self.lastChunk_sent = 0
-        self.window = 4
+
         folder_name = "SEG_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)
         if not os.path.exists(rel_path):
@@ -60,8 +63,12 @@ class Service_Execution_Main(object):
     def run(self):
         try:
             self.face.setCommandSigningInfo(self.keyChain, self.keyChain.getDefaultCertificateName())
-            self.face.registerPrefix(self.configPrefix, self.onInterest, self.onRegisterFailed)
+            self.face.registerPrefix(self.configPrefix, self.onInterest_pushService, self.onRegisterFailed)
             print "Registered prefix : " + self.configPrefix.toUri()
+
+            self.face.setCommandSigningInfo(self.keyChain, self.keyChain.getDefaultCertificateName())
+            self.face.registerPrefix(self.prefix_pullService, self.onInterest_pullService, self.onRegisterFailed)
+            print "Registered prefix : " + self.prefix_pullService.toUri()
 
             while not self.isDone:
                 self.face.processEvents()
@@ -70,7 +77,7 @@ class Service_Execution_Main(object):
         except RuntimeError as e:
             print "ERROR: %s" %  e
 
-    def onInterest(self, prefix, interest, face, interestFilterId, filter):
+    def onInterest_pushService(self, prefix, interest, face, interestFilterId, filter):
         interestName = interest.getName()
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
@@ -115,6 +122,16 @@ class Service_Execution_Main(object):
                 print 'Deployment description is not available'
         else:
             print "Interest name mismatch"
+
+    def onInterest_pullService(self, prefix, interest, face, interestFilterId, filter):
+        interestName = interest.getName()
+        print "Interest Name: %s" %interestName
+        interest_name_components = interestName.toUri().split("/")
+        image_fileName = interest_name_components[interest_name_components.index("pull_Service") + 1]
+        if "pull_Service" in interest_name_components:
+            prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
+            print 'Sending Interest message: %s' % prefix_pullImage
+            self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
 
     def onRegisterFailed(self, prefix):
         print "Register failed for prefix", prefix.toUri()

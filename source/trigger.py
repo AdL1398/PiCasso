@@ -45,6 +45,7 @@ class trigger(object):
         self.prefix_serviceMigration_KEBAPP = Name(prefix_serviceMigration_KEBAPP)
 
         self.prefix_DE = "/picasso/start_de/"
+        self.prefix_pullService = "/picasso/pull_Service/"
 
 
         #prefix_deployment_pull = "/picasso/service_deployment_pull/"
@@ -83,7 +84,7 @@ class trigger(object):
             else:
                 print 'Chosen service is not available'
 
-            name_prefix = self.prefix_DE + service_name + '.tar'
+            name_prefix = self.prefix_pullService + service_name + '.tar'
             print 'name prefix: %s' % name_prefix
             self.sendPushInterest(Name(name_prefix))
 
