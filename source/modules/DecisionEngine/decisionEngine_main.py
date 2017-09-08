@@ -131,7 +131,8 @@ class Decision_Engine_Main(object):
         interest_name_components = interestName.toUri().split("/")
         if "service_deployment_pull" in interest_name_components:
             ## Extract filename from Interest name
-            filename = "uhttpd.tar"
+            #filename = "uhttpd.tar"
+            filename = interest_name_components[interest_name_components.index("service_deployment_pull") + 1]
             folder_name = "ServiceRepo/SC_repository/"
             parent_dir = os.path.split(self.script_dir)[0]
             rel_path = os.path.join(parent_dir, folder_name)

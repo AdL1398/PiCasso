@@ -28,8 +28,8 @@ python_version  : Python 2.7.12
 
 
 import time
-import docker
-#from docker import Client
+#import docker
+from docker import Client
 import os
 import subprocess
 
@@ -37,22 +37,33 @@ script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
 script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
 parent_dir = os.path.split(script_dir)[0]
 SEG_repo_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository')
+ServiceExecution_path = os.path.join(script_dir, parent_dir, 'ServiceExecution')
 assigned_port = list(range(8000, 8080))
 
 serviceInfo = {
-            'umobilestore.tar': {
+            'umobilestore.tar':{
                                   'image_name':'al1309/umobile-store-nano-rpi:latest',
                                   'port_host': 80,
                                   'port_container': 80,
+                                  'type': 'singleWebContainer',
                                   'component': ['ubuntu.tar', 'python.tar', 'java.tar']},
-            'uhttpd.tar': {
+            'uhttpd.tar':{
                                   'image_name': 'fnichol/uhttpd:latest',
                                   'port_host': 8081,
                                   'port_container': 80,
-                                  'component': ['debian.tar', 'python.tar', 'java.tar']}
-                            }
+                                  'type': 'singleWebContainer',
+                                  'component': ['debian.tar', 'python.tar', 'java.tar']},
 
-client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
+            'cloudrone_WestCambridge.tar':{
+                                  'image_name': 'none',
+                                  'port_host': 'none',
+                                  'port_container': 'none',
+                                  'type': 'DockerCompose',
+                                  'component': ['webserver.tar', 'dbmysql.tar']}
+               }
+
+client = Client(base_url='unix://var/run/docker.sock', version='auto')
+#client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
 #client = docker.from_env(assert_hostname=False)
 pulling_flag = False
 path = "SEG_repository"
@@ -162,6 +173,32 @@ def has_imagefile(image_filename):
     else:
         print 'image file is not available in SEG repository'
         return False
+
+def get_ExecutionType(image_filename):
+    type = serviceInfo[image_filename]['type']
+    return type
+
+def has_ServiceInfo(image_filename):
+    if image_filename in serviceInfo:
+        return True
+    else:
+        return False
+
+def run_DockerCompose_source (image_filename):
+    imagefile_path = os.path.join(SEG_repo_path, image_filename)
+    folder_name = image_filename.replace('.tar', '')
+    dockerCompose_source_path = os.path.join(SEG_repo_path, folder_name)
+    print 'docker compose path %s' %dockerCompose_source_path
+    if os.path.exists(dockerCompose_source_path) == True:
+        print 'Docker compose source has already been extracted'
+    else:
+        print 'Extracting the source'
+        cmd = 'tar -xvf ' + imagefile_path + ' -C ' + SEG_repo_path
+        os.system(cmd)
+    print 'run service: %s' %folder_name
+    cmd = ServiceExecution_path + '/run_dockercompose.sh ' + dockerCompose_source_path
+    print cmd
+    os.system(cmd)
 
 def get_freeport(num_con):
     if num_con+1 < len(assigned_port):

@@ -34,7 +34,7 @@ import modules.tools.dockerctl
 from modules.tools import ndnMessage_Helper, dockerctl
 from modules.tools.enumerate_publisher import EnumeratePublisher
 from modules.tools.termopi import termopi # class with dictionary data structure
-
+import string
 
 class Service_Execution_Main(object):
     def __init__(self, producerName, namePrefix):
@@ -78,22 +78,41 @@ class Service_Execution_Main(object):
             image_fileName = interest_name_components[interest_name_components.index("service_deployment_push") + 2]
             print 'Deploy service: %s' %image_fileName
             print 'Start service deployment'
-            ## check image is running or not
-            #Ger info from serviceInfo
-            #serviceName = 'web-uhttpd'
-            deployment_status = dockerctl.deployContainer(image_fileName, self.num_deployedContainer)
-            if  deployment_status == 'pull_image':
-                print 'Service: %s is not locally cached, pull from Repo' % image_fileName
-                prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
-                print 'Sending Interest message: %s' % prefix_pullImage
-                self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
-            elif deployment_status == 'done':
-                print 'Service:%s is successfully deployed' %image_fileName
-                self.num_deployedContainer += 1
-            elif deployment_status == 'error':
-                print 'Error in deployment process'
+
+            if dockerctl.has_ServiceInfo(image_fileName) == True:
+                print 'Has description for service deployment'
+                ExecutionType = dockerctl.get_ExecutionType(image_fileName)
+                if ExecutionType == 'singleWebContainer':
+                    print 'Deployment uses dockerctl'
+                    deployment_status = dockerctl.deployContainer(image_fileName, self.num_deployedContainer)
+                    if  deployment_status == 'pull_image':
+                        print 'Service: %s is not locally cached, pull from Repo' % image_fileName
+                        prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
+                        print 'Sending Interest message: %s' % prefix_pullImage
+                        self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
+                    elif deployment_status == 'done':
+                        print 'Service:%s is successfully deployed' %image_fileName
+                        self.num_deployedContainer += 1
+                    elif deployment_status == 'error':
+                        print 'Error in deployment process'
+                    else:
+                        print 'Code bug'
+
+                elif ExecutionType == 'DockerCompose':
+                    print 'Deployment uses docker compose'
+                    if dockerctl.has_imagefile(image_fileName) == True:
+                        print 'Load image and run service'
+                        dockerctl.run_DockerCompose_source(image_fileName)
+                    else:
+                        print 'Service: %s is not locally cached, pull from Repo' % image_fileName
+                        prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
+                        print 'Sending Interest message: %s' % prefix_pullImage
+                        self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
+                else:
+                    print 'Execution method is not yet implemented'
+
             else:
-                print 'Code bug'
+                print 'Deployment description is not available'
         else:
             print "Interest name mismatch"
 
@@ -137,8 +156,19 @@ class Service_Execution_Main(object):
             file_path = os.path.join(abs_path, fileName)
             if self.request_SubsequenceDataChunk(abs_path, fileName, data, self.window) == True:
                 print 'Load image and run service'
-                #if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
-                    #print 'Image:%s cannot be deployed' %fileName
+                if dockerctl.has_ServiceInfo(fileName) == True:
+                    print 'Has description for service deployment'
+                    ExecutionType = dockerctl.get_ExecutionType(image_fileName)
+                    if ExecutionType == 'singleWebContainer':
+                        print 'Deployment uses dockerctl'
+                        if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
+                            print 'Image:%s cannot be deployed' %fileName
+                    elif ExecutionType == 'DockerCompose':
+                        dockerctl.run_DockerCompose_source(image_fileName)
+                    else:
+                        print 'Execution method is not yet implemented'
+
+
         else:
              print "function is not yet ready"
 
