@@ -39,7 +39,7 @@ import string
 class Service_Execution_Main(object):
     def __init__(self, producerName, namePrefix):
         self.configPrefix = Name(namePrefix)
-        self.Datamessage_size = 1800000 #8kB --> Max Size from NDN standard
+        self.Datamessage_size = 1900000 #8kB --> Max Size from NDN standard
         self.producerName = producerName
         self.outstanding = dict()
         self.isDone = False
@@ -51,7 +51,7 @@ class Service_Execution_Main(object):
         self.num_deployedContainer = 0
         self.lastChunk_window = 0
         self.lastChunk_sent = 0
-        self.window = 1
+        self.window = 4
         folder_name = "SEG_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)
         if not os.path.exists(rel_path):
@@ -158,13 +158,13 @@ class Service_Execution_Main(object):
                 print 'Load image and run service'
                 if dockerctl.has_ServiceInfo(fileName) == True:
                     print 'Has description for service deployment'
-                    ExecutionType = dockerctl.get_ExecutionType(image_fileName)
+                    ExecutionType = dockerctl.get_ExecutionType(fileName)
                     if ExecutionType == 'singleWebContainer':
                         print 'Deployment uses dockerctl'
                         if dockerctl.deployContainer(fileName, self.num_deployedContainer) == 'error':
                             print 'Image:%s cannot be deployed' %fileName
                     elif ExecutionType == 'DockerCompose':
-                        dockerctl.run_DockerCompose_source(image_fileName)
+                        dockerctl.run_DockerCompose_source(fileName)
                     else:
                         print 'Execution method is not yet implemented'
 
