@@ -40,7 +40,7 @@ class Decision_Engine_Main(object):
         self.configPrefix = Name(namePrefix)
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
-        self.interestLifetime = 12000
+        self.interestLifetime = 12000000
         self.Datamessage_size = 1000000
         folder_name = "SC_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)

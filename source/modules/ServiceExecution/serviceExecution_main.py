@@ -50,7 +50,7 @@ class Service_Execution_Main(object):
         self.face = Face("127.0.0.1")
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
-        self.interestLifetime = 12000
+        self.interestLifetime = 12000000
         self.num_deployedContainer = 0
         self.lastChunk_window = 0
         self.lastChunk_sent = 0
