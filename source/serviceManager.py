@@ -40,7 +40,7 @@ class ServiceManager(object):
             #instantiate DB here
             print 'Instantiate monitoring DB'
             os.system("docker rm -f $(docker ps -a -q)")
-            os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
+            #os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
             #instantiate Grafana
             #Create Thread
             stopFlag = Event()
@@ -58,8 +58,8 @@ class ServiceManager(object):
             DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
             DE.start()
 
-            ServiceRepo = Service_Repo(5, "ServiceRepo-Thread", 2200)
-            ServiceRepo.start()
+            #ServiceRepo = Service_Repo(5, "ServiceRepo-Thread", 2200)
+            #ServiceRepo.start()
 
         except RuntimeError as e:
             print "ERROR: %s" %  e
