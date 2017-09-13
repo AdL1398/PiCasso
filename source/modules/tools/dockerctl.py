@@ -64,6 +64,7 @@ serviceInfo = {
 
 client = Client(base_url='unix://var/run/docker.sock', version='auto')
 #client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
+#client = docker.APIClient(base_url='unix://var/run/docker.sock')
 #client = docker.from_env(assert_hostname=False)
 pulling_flag = False
 path = "SEG_repository"
