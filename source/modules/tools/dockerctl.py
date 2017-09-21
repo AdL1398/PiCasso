@@ -28,8 +28,8 @@ python_version  : Python 2.7.12
 
 
 import time
-#import docker
-from docker import Client
+import docker
+#from docker import Client
 import os
 import subprocess
 
@@ -54,7 +54,7 @@ serviceInfo = {
                                   'type': 'singleWebContainer',
                                   'component': ['debian.tar', 'python.tar', 'java.tar']},
 
-            'cloudrone_WestCambridge.tar':{
+            'cloudrone.tar.gz':{
                                   'image_name': 'none',
                                   'port_host': 'none',
                                   'port_container': 'none',
@@ -62,10 +62,10 @@ serviceInfo = {
                                   'component': ['webserver.tar', 'dbmysql.tar']}
                }
 
-client = Client(base_url='unix://var/run/docker.sock', version='auto')
-#client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
-#client = docker.APIClient(base_url='unix://var/run/docker.sock')
-#client = docker.from_env(assert_hostname=False)
+## For Linux
+#client = Client(base_url='unix://var/run/docker.sock', version='auto')
+
+client = docker.APIClient(base_url='unix://var/run/docker.sock')
 pulling_flag = False
 path = "SEG_repository"
 info = {}
@@ -187,14 +187,14 @@ def has_ServiceInfo(image_filename):
 
 def run_DockerCompose_source (image_filename):
     imagefile_path = os.path.join(SEG_repo_path, image_filename)
-    folder_name = image_filename.replace('.tar', '')
+    folder_name = image_filename.replace('.tar.gz', '')
     dockerCompose_source_path = os.path.join(SEG_repo_path, folder_name)
     print 'docker compose path %s' %dockerCompose_source_path
     if os.path.exists(dockerCompose_source_path) == True:
         print 'Docker compose source has already been extracted'
     else:
         print 'Extracting the source'
-        cmd = 'tar -xvf ' + imagefile_path + ' -C ' + SEG_repo_path
+        cmd = 'tar -xzf ' + imagefile_path + ' -C ' + SEG_repo_path
         os.system(cmd)
     print 'run service: %s' %folder_name
     cmd = ServiceExecution_path + '/run_dockercompose.sh ' + dockerCompose_source_path
