@@ -7,11 +7,45 @@ import os
 from modules.tools import dockerctl
 from modules.tools import pidict
 
-ServiceExecution_path = '~/PiCasso/source/modules/ServiceExecution/'
-dockerCompose_source_path = '~/PiCasso/source/modules/ServiceExecution/SEG_repository/cloudrone_WestCambridge'
-cmd = ServiceExecution_path + '/run_dockercompose.sh ' + dockerCompose_source_path
-print cmd
-os.system(cmd)
+dataSegmentNum = 0
+lastSegmentNum = 9
+TotalNumChunks = lastSegmentNum +1
+receivedContentChunk = [0 for i in range(TotalNumChunks)]
+print receivedContentChunk
+# receivedContentChunk[1] = 1
+# receivedContentChunk[5] = 1
+# receivedContentChunk[8] = 1
+#
+# for i in range(10):
+#     print ('index %d: %d' %(i,receivedContentChunk[i]))
+#
+#
+# numsum = sum(list(receivedContentChunk))
+# print ('Total received packets: %d' %(sum(list(receivedContentChunk))))
+stop = False
+while stop==False:
+    input = raw_input('Received chunkID: ')
+    dataSegmentNum = int(input)
+    receivedContentChunk[dataSegmentNum] = 1
+
+    if dataSegmentNum == lastSegmentNum:
+        print 'Received last chunk of content'
+        print 'Stop Sending Interest'
+
+    TotalReceivedChunk = sum(list(receivedContentChunk))
+    if TotalReceivedChunk == TotalNumChunks:
+        print 'Receive all the chunks'
+        stop = True
+
+
+# ServiceExecution_path = '~/PiCasso/source/modules/ServiceExecution/'
+# ServiceExecution_path = '~/PiCasso/source/modules/ServiceExecution/'
+# dockerCompose_source_path = '~/PiCasso/source/modules/ServiceExecution/SEG_repository/cloudrone_WestCambridge'
+# cmd = ServiceExecution_path + '/run_dockercompose.sh ' + dockerCompose_source_path
+# print cmd
+# os.system(cmd)
+
+
 
 
 # def test_multireturn (x):

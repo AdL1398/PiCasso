@@ -164,13 +164,22 @@ class Service_Execution_Main(object):
         data_name_components = dataName.toUri().split("/")
 
         if "service_deployment_pull" in data_name_components:
-            #fileName = data_name_components[data_name_components.index("install") + 1]
             fileName = data_name_components[data_name_components.index("service_deployment_pull") + 1]
             rel_path = "SEG_repository"
             abs_path = os.path.join(self.script_dir, rel_path)
             print "path of SEG_repository:%s" %abs_path
             print "Service File name:%s" %fileName
             file_path = os.path.join(abs_path, fileName)
+            dataSegmentNum = (dataName.get(dataName_size - 1)).toSegment()
+            lastSegmentNum = (data.getMetaInfo().getFinalBlockId()).toNumber()
+            print "dataSegmentNum" + str(dataSegmentNum)
+            print "lastSegmentNum" + str(lastSegmentNum)
+            if dataSegmentNum == 0:
+                print 'Start counting received chunks'
+                self.StartCountingReceivedChunks(dataSegmentNum, lastSegmentNum+1)
+            else:
+                self.UpdatingReceivedChunks(dataSegmentNum)
+
             if self.request_SubsequenceDataChunk(abs_path, fileName, data, self.window) == True:
                 print 'Load image and run service'
                 if dockerctl.has_ServiceInfo(fileName) == True:
@@ -221,8 +230,6 @@ class Service_Execution_Main(object):
         try:
             dataSegmentNum = (dataName.get(dataName_size - 1)).toSegment()
             lastSegmentNum = (data.getMetaInfo().getFinalBlockId()).toNumber()
-            print "dataSegmentNum" + str(dataSegmentNum)
-            print "lastSegmentNum" + str(lastSegmentNum)
 
             if dataSegmentNum == self.lastChunk_window:
                 print 'Send Interest of next window frame'
@@ -243,11 +250,24 @@ class Service_Execution_Main(object):
                 print 'Already sent window frame, Waiting for Data message'
 
             if lastSegmentNum == dataSegmentNum:
-                print "Received complete image: %s, EXECUTED !!!!" % fileName
+                print 'Received last chunk of content'
+                print 'Stop Sending Interest'
                 self.lastChunk_window = 0
                 self.lastChunk_sent = 0
+
+            TotalReceivedChunk = sum(list(self.receivedContentChunk))
+            if TotalReceivedChunk == lastSegmentNum+1:
+                print "Received complete image: %s, EXECUTED !!!!" % fileName
                 return True
 
         except RuntimeError as e:
                 print "ERROR: %s" % e
                 self.isDone = True
+
+    def StartCountingReceivedChunks(self, chunkID, TotalNumChunks):
+        self.receivedContentChunk = [0 for i in range(TotalNumChunks)]
+        self.receivedContentChunk[chunkID] = 1
+        print self.receivedContentChunk
+    def UpdatingReceivedChunks(self, chunkID):
+        self.receivedContentChunk[chunkID] = 1
+        print self.receivedContentChunk
