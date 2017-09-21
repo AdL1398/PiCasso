@@ -1,57 +1,65 @@
 import json
 import os
 import modules.tools.dockerctl
+import os
 
 #from modules.DataStore.dataStore import DataStore
 from modules.tools import dockerctl
 from modules.tools import pidict
 
-def test_multireturn (x):
-    a = x +1
-    b = True
-    return a, b
-
-number, boo = test_multireturn(1)
-print number
-print boo
+ServiceExecution_path = '~/PiCasso/source/modules/ServiceExecution/'
+dockerCompose_source_path = '~/PiCasso/source/modules/ServiceExecution/SEG_repository/cloudrone_WestCambridge'
+cmd = ServiceExecution_path + '/run_dockercompose.sh ' + dockerCompose_source_path
+print cmd
+os.system(cmd)
 
 
-script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
-script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
-#parent_dir = os.path.dirname(os.path.normpath(script_dir))
-parent_dir = os.path.split(script_dir)[0]
-
-image_filename = 'uhttpd.tar'
-imagefile_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository', image_filename)
-print 'parent dir %s', parent_dir
-print 'target dir %s', imagefile_path
-
-if os.path.exists(imagefile_path) == True:
-   print 'image file is already stored'
-else:
-   print 'image file is not here'
-
-pi_status= {
-    'PiID': 'SEG_1',
-    'PiIP': '192.0.0.2',
-    'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '2 GB', 'disk': '8 GB'},
-    'softResources': {'OS': 'Linux'},
-    'resourceUsage': {'cpuUsage': '32', 'cpuLoad': '2', 'memUsage':'20'},
-    'containers':    [{'id':             '64c1f6e0e5c19f_2_1',
-                       'cpuUsage':       '50',
-                       'memUsage':       '3636',
-                       'name':           'web1',
-                       'status':         'Up 39 second',
-                       'image':          'hypriot/rpi-busybox-httpd:latest_p8080',
-                       'port_host':      '8080',
-                       'port_container': '80'}]
-    }
-
-
-dockerctl.get_container_info(pi_status)
-print(">>>>>BEGING THE RESOURCES OF THE PI<<<<<")
-pidict.prt_allResources_of_a_pi(pi_status)
-print(">>>>>END THE RESOURCES OF THE PI<<<<<")
+# def test_multireturn (x):
+#     a = x +1
+#     b = True
+#     return a, b
+#
+# number, boo = test_multireturn(1)1
+# print number
+# print boo
+#
+#
+# script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
+# script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
+# #parent_dir = os.path.dirname(os.path.normpath(script_dir))
+# parent_dir = os.path.split(script_dir)[0]
+#
+# image_filename = 'uhttpd.tar'
+# imagefile_path = os.path.join(script_dir, parent_dir, 'ServiceExecution', 'SEG_repository', image_filename)
+# print 'parent dir %s', parent_dir
+# print 'target dir %s', imagefile_path
+#
+# if os.path.exists(imagefile_path) == True:
+#    print 'image file is already stored'
+# else:
+#    print 'image file is not here'
+#
+# pi_status= {
+#     'PiID': 'SEG_1',
+#     'PiIP': '192.0.0.2',
+#     'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '2 GB', 'disk': '8 GB'},
+#     'softResources': {'OS': 'Linux'},
+#     'resourceUsage': {'cpuUsage': '32', 'cpuLoad': '2', 'memUsage':'20'},
+#     'containers':    [{'id':             '64c1f6e0e5c19f_2_1',
+#                        'cpuUsage':       '50',
+#                        'memUsage':       '3636',
+#                        'name':           'web1',
+#                        'status':         'Up 39 second',
+#                        'image':          'hypriot/rpi-busybox-httpd:latest_p8080',
+#                        'port_host':      '8080',
+#                        'port_container': '80'}]
+#     }
+#
+#
+# dockerctl.get_container_info(pi_status)
+# print(">>>>>BEGING THE RESOURCES OF THE PI<<<<<")
+# pidict.prt_allResources_of_a_pi(pi_status)
+# print(">>>>>END THE RESOURCES OF THE PI<<<<<")
 
 
 
