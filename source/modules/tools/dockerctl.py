@@ -28,8 +28,8 @@ python_version  : Python 2.7.12
 
 
 import time
-import docker
-#from docker import Client
+#import docker
+from docker import Client
 import os
 import subprocess
 
@@ -63,9 +63,9 @@ serviceInfo = {
                }
 
 ## For Linux
-#client = Client(base_url='unix://var/run/docker.sock', version='auto')
+client = Client(base_url='unix://var/run/docker.sock', version='auto')
 
-client = docker.APIClient(base_url='unix://var/run/docker.sock')
+#client = docker.APIClient(base_url='unix://var/run/docker.sock')
 pulling_flag = False
 path = "SEG_repository"
 info = {}

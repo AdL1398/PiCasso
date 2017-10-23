@@ -40,16 +40,17 @@ class ServiceManager(object):
             #instantiate DB here
             print 'Instantiate monitoring DB'
             os.system("docker rm -f $(docker ps -a -q)")
-            #os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb influxdb:alpine")
+            os.system("docker run -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb --name influxdb influxdb:alpine")
             #instantiate Grafana
+            os.system("docker run -d -p 3000:3000 --link influxdb --name grafana grafana/grafana")
             #Create Thread
             stopFlag = Event()
-            #print 'Start Monitoring Manager'
+            print 'Start Monitoring Manager'
             #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
             #SEG1_monitoring.start()
 
-            #SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
-            #SEG2_monitoring.start()
+            SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
+            SEG2_monitoring.start()
 
             #SEG3_monitoring = MonitoringThread_Manager(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
             #SEG3_monitoring.start()

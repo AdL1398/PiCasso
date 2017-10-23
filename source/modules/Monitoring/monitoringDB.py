@@ -19,7 +19,7 @@ class InfluxDBWriter():
     def connect(self):
         #influxdb_url = os.environ['INFLUXDB_URL']
         #influxdb_port = os.environ['INFLUXDB_PORT']
-        influxdb_url = 'localhost'
+        influxdb_url = '192.168.0.205'
         influxdb_port = 8086
         print("Connecting to InfluxDB")
         self.client = InfluxDBClient(influxdb_url, influxdb_port, 'root', 'root', 'picasso')
