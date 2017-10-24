@@ -7,35 +7,35 @@ import os
 from modules.tools import dockerctl
 from modules.tools import pidict
 
-dataSegmentNum = 0
-lastSegmentNum = 9
-TotalNumChunks = lastSegmentNum +1
-receivedContentChunk = [0 for i in range(TotalNumChunks)]
-print receivedContentChunk
-# receivedContentChunk[1] = 1
-# receivedContentChunk[5] = 1
-# receivedContentChunk[8] = 1
+# dataSegmentNum = 0
+# lastSegmentNum = 9
+# TotalNumChunks = lastSegmentNum +1
+# receivedContentChunk = [0 for i in range(TotalNumChunks)]
+# print receivedContentChunk
+# # receivedContentChunk[1] = 1
+# # receivedContentChunk[5] = 1
+# # receivedContentChunk[8] = 1
+# #
+# # for i in range(10):
+# #     print ('index %d: %d' %(i,receivedContentChunk[i]))
+# #
+# #
+# # numsum = sum(list(receivedContentChunk))
+# # print ('Total received packets: %d' %(sum(list(receivedContentChunk))))
+# stop = False
+# while stop==False:
+#     input = raw_input('Received chunkID: ')
+#     dataSegmentNum = int(input)
+#     receivedContentChunk[dataSegmentNum] = 1
 #
-# for i in range(10):
-#     print ('index %d: %d' %(i,receivedContentChunk[i]))
+#     if dataSegmentNum == lastSegmentNum:
+#         print 'Received last chunk of content'
+#         print 'Stop Sending Interest'
 #
-#
-# numsum = sum(list(receivedContentChunk))
-# print ('Total received packets: %d' %(sum(list(receivedContentChunk))))
-stop = False
-while stop==False:
-    input = raw_input('Received chunkID: ')
-    dataSegmentNum = int(input)
-    receivedContentChunk[dataSegmentNum] = 1
-
-    if dataSegmentNum == lastSegmentNum:
-        print 'Received last chunk of content'
-        print 'Stop Sending Interest'
-
-    TotalReceivedChunk = sum(list(receivedContentChunk))
-    if TotalReceivedChunk == TotalNumChunks:
-        print 'Receive all the chunks'
-        stop = True
+#     TotalReceivedChunk = sum(list(receivedContentChunk))
+#     if TotalReceivedChunk == TotalNumChunks:
+#         print 'Receive all the chunks'
+#         stop = True
 
 
 # ServiceExecution_path = '~/PiCasso/source/modules/ServiceExecution/'
@@ -73,27 +73,27 @@ while stop==False:
 # else:
 #    print 'image file is not here'
 #
-# pi_status= {
-#     'PiID': 'SEG_1',
-#     'PiIP': '192.0.0.2',
-#     'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '2 GB', 'disk': '8 GB'},
-#     'softResources': {'OS': 'Linux'},
-#     'resourceUsage': {'cpuUsage': '32', 'cpuLoad': '2', 'memUsage':'20'},
-#     'containers':    [{'id':             '64c1f6e0e5c19f_2_1',
-#                        'cpuUsage':       '50',
-#                        'memUsage':       '3636',
-#                        'name':           'web1',
-#                        'status':         'Up 39 second',
-#                        'image':          'hypriot/rpi-busybox-httpd:latest_p8080',
-#                        'port_host':      '8080',
-#                        'port_container': '80'}]
-#     }
-#
-#
-# dockerctl.get_container_info(pi_status)
-# print(">>>>>BEGING THE RESOURCES OF THE PI<<<<<")
-# pidict.prt_allResources_of_a_pi(pi_status)
-# print(">>>>>END THE RESOURCES OF THE PI<<<<<")
+pi_status= {
+    'PiID': 'SEG_1',
+    'PiIP': '192.0.0.2',
+    'hardResources': {'cpu': 'A 1.2GHz 64-bit quad-core ARMv8 CPU', 'mem': '2 GB', 'disk': '8 GB'},
+    'softResources': {'OS': 'Linux'},
+    'resourceUsage': {'cpuUsage': '32', 'cpuLoad': '2', 'memUsage':'20'},
+    'containers':    [{'id':             '64c1f6e0e5c19f_2_1',
+                       'cpuUsage':       '50',
+                       'memUsage':       '3636',
+                       'name':           'web1',
+                       'status':         'Up 39 second',
+                       'image':          'hypriot/rpi-busybox-httpd:latest_p8080',
+                       'port_host':      '8080',
+                       'port_container': '80'}]
+    }
+
+
+dockerctl.get_container_info(pi_status)
+print(">>>>>BEGING THE RESOURCES OF THE PI<<<<<")
+pidict.prt_allResources_of_a_pi(pi_status)
+print(">>>>>END THE RESOURCES OF THE PI<<<<<")
 
 
 

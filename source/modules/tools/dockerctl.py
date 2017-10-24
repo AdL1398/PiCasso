@@ -218,7 +218,7 @@ def get_container_info(pi_status):
     Returns the input dictionary populated with values measured from the current
       status of one or more containers running in the Pi.  
     """
-    pi_status['containers']=[]
+    pi_status['containers'] = []
     for container in client.containers():
         cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $2}\' " % (container['Id'], container['Id'])
         cpuUsage = system_call(cmd)
@@ -229,9 +229,9 @@ def get_container_info(pi_status):
         memUsage = system_call(cmd)
         memUsage_str = memUsage.replace("\n", "")
         memUsage_str = memUsage_str.replace("%", "")
-        dict_port_host= container['Ports'][0]
-        p_int=dict_port_host['PublicPort'] 
-        port_host_str= str(p_int).replace("\n", "")
+        #dict_port_host= container['Ports'][0]
+        #p_int=dict_port_host['PublicPort']
+        #port_host_str= str(p_int).replace("\n", "")
 
         new_container={
                        'id':             container['Id'],
@@ -240,8 +240,8 @@ def get_container_info(pi_status):
                        'name':           container['Names'][0], # the client.container() returns a list of names.
                        'status':         container['Status'],   # as a temporary solution, I take the first name
                        'image':          container['Image'],    # of the list.
-                       'port_host':      port_host_str,         # the client.container() returns a list of ports
-                       'port_container': '80'}             # getting the first, is a tmp solution
+                       'port_host':      '80',         # the client.container() returns a list of ports
+                       'port_container': '8000'}             # getting the first, is a tmp solution
         pi_status['containers'].append(new_container)
     return (len((pi_status['containers'])))
 

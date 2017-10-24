@@ -90,7 +90,7 @@ class MonitoringManager_Main(object):
             #timestamp = f.read()
             fileName = 'status'+'-' + nodeName + '.json'
             print "Monitoring File name:%s" %fileName
-            file_path = os.path.join(abs_path,fileName)
+            file_path = os.path.join(abs_path, fileName)
             if os.path.exists(file_path) == True:
                 print 'remove old monitoring Data'
                 os.remove(file_path)

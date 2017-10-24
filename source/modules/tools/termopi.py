@@ -5,17 +5,17 @@ title           : termopi.py
 description     : Displays the status of the resources (cpu load and memory usage) consumed by a Raspberry Pi
                   computer and the resources consumed by one or more containrs instantiated in the Pi.  
 source          :
-author          : Carlos Molina-Jimenez (Carlos.Molina@cl.cam.ac.uk)
+author          : Adisorn Lertsinsrubtavee (Adisorn.Lertsinsrubtavee@cl.cam.ac.uk)
 date            : 27 Mar 2017
 institution     : Computer Laboratory, University of Cambridge
-version         : 1.0
+version         : 2.0
 usage           :
 notes           :
 compile and run : % python termopi.py
-                :   It imports pidict.py, dockerctl.py and picheck.py which are found in
-                :   ./modules.
+                :   It imports dockerctl.py and picheck.py which are found in
+                :   ./modules/tools.
                 :   You need to include "./modules" in the PYTHONPATH environment variable to
-                :   indicate python where to find the pidict.py, dockerctl.py and picheck.py.
+                :   indicate python where to find the dockerctl.py and picheck.py.
                 :   For example, in a bash shell, you need to include the following lines
                 :   in your .bash_profile file located in you home directory (you can see it with
                 :   (# ls -la).
@@ -29,7 +29,7 @@ python_version  : Python 2.7.12
 import os
 import sys
 import time
-
+import json
 import picheck     # functions to get resources from the Raspberry Pi computer
 import pidict      # functions for manipulating a dictionary data structure.
 from modules.misc.dedata import dedata # class with dictionary data structure
@@ -66,7 +66,6 @@ class termopi():
                        jsonfname=     jsonfnamedefault):
 
         self.pi_status = pi_status 
-#       self.pi_status_dflt= pi_status # wrong: self.pi_status and self.pi_status are pointer pointing to the same obj 
         self.pi_status_dflt= pi_status_default # this is good and used for testing only
         self.jsonpath= jsonpath
         self.jsonfname= jsonfname
@@ -89,24 +88,23 @@ class termopi():
         pidict.prt_allResources_of_a_pi(self.pi_status)
         print(">>>>>END THE RESOURCES OF THE PI<<<<<") 
                                          
-    def create_jsonfile_with_pi_status(self, filename):
+    def create_jsonfile_with_pi_status(self, filename, node_name):
         import os.path
-        #fname= os.path.join(self.jsonpath, self.jsonfname)
-        
-        pidict.put_hardResources_cpu(self.pi_status, 'A 1.2GHz 64-bit quad-core ARMv8 CPU')
-        pidict.put_hardResources_mem(self.pi_status, '1 GB')
-        pidict.put_hardResources_disk(self.pi_status, '16 GB')
+
+        self.pi_status['hardResources']['cpu'] = 'A 1.2GHz 64-bit quad-core ARMv8 CPU'
+        self.pi_status['hardResources']['mem'] = '1 GB'
+        self.pi_status['hardResources']['disk'] = '32 GB'
+        self.pi_status['PiID'] = node_name
         """
         Real time values collected from the /proc/stat of the Pi
         """
-        pidict.put_resourceUsage_mem(self.pi_status, picheck.pi_memUsage())
-        pidict.put_resourceUsage_cpuLoad(self.pi_status, picheck.pi_cpuLoad())
-        pidict.put_resourceUsage_cpuUsage(self.pi_status, picheck.pi_cpuUsage())
+        self.pi_status['resourceUsage']['memUsage'] = picheck.pi_memUsage()
+        self.pi_status['resourceUsage']['cpuLoad'] = picheck.pi_cpuLoad()
+        self.pi_status['resourceUsage']['cpuUsage'] = picheck.pi_cpuUsage()
         dockerctl.get_container_info(self.pi_status)
+        self.create_jsonFile(self.pi_status, filename)
 
-        pidict.create_jsonFile(self.pi_status, filename)
-
-    def check_pi_resource_status(self,cpuUsageThreshold):
+    def check_pi_resource_status(self, cpuUsageThreshold):
         mydedata= dedata(self.jsonpath)
 
         print("\n\n.....migration record in same Pi..............")
@@ -114,25 +112,18 @@ class termopi():
 
         print("len first l= " + str(len(l_re[0]))  + "len second l= " + str(len(l_re[1])))
 
-#       if (mydedata.trigger_migration(migrationFile) == False):
-#          print ("Resources are OK--no deployments needed!")
-#       else:
-#          print ("Some resources are exahusted --deployments needed!")
-#          migration_lst= mydedata.get_migration_lst()
-
-
     def response_interest_monitoring(self):
         print "Check Pi and Containers Status"
         self.prt_pi_resources()
         print "Update json file"
         self.create_jsonfile_with_pi_status()
 
+    def create_jsonFile(self, pi_stat, fname):
+        try:
+            os.remove(fname)
+        except OSError:
+            pass
+        with open(fname, 'w') as json_outfile:
+            json.dump(pi_stat, json_outfile, ensure_ascii=False)
+        return
 
-#f __name__ == '__main__':
-
-#termo= termopi()
-#termo.prt_pi_resources()
-#termo.create_jsonfile_with_pi_status()
-#termo.check_pi_resource_status(cpuUsageThreshold)
-
-  
