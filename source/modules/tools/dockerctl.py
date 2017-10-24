@@ -28,8 +28,8 @@ python_version  : Python 2.7.12
 
 
 import time
-#import docker
-from docker import Client
+import docker
+#from docker import Client
 import os
 import subprocess
 
@@ -63,9 +63,9 @@ serviceInfo = {
                }
 
 ## For Linux
-client = Client(base_url='unix://var/run/docker.sock', version='auto')
+#client = Client(base_url='unix://var/run/docker.sock', version='auto')
 
-#client = docker.APIClient(base_url='unix://var/run/docker.sock')
+client = docker.APIClient(base_url='unix://var/run/docker.sock')
 pulling_flag = False
 path = "SEG_repository"
 info = {}
@@ -219,30 +219,44 @@ def get_container_info(pi_status):
       status of one or more containers running in the Pi.  
     """
     pi_status['containers'] = []
-    for container in client.containers():
-        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $2}\' " % (container['Id'], container['Id'])
-        cpuUsage = system_call(cmd)
-        cpuUsage_str = cpuUsage.replace("\n", "")
-        cpuUsage_str = cpuUsage_str.replace("%", "")
-
-        cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $6}\' " % (container['Id'], container['Id'])
-        memUsage = system_call(cmd)
-        memUsage_str = memUsage.replace("\n", "")
-        memUsage_str = memUsage_str.replace("%", "")
-        #dict_port_host= container['Ports'][0]
-        #p_int=dict_port_host['PublicPort']
-        #port_host_str= str(p_int).replace("\n", "")
-
+    if len(client.containers()) == 0:
+        print 'No container running'
         new_container={
-                       'id':             container['Id'],
-                       'cpuUsage':       cpuUsage_str,
-                       'memUsage':       memUsage_str,
-                       'name':           container['Names'][0], # the client.container() returns a list of names.
-                       'status':         container['Status'],   # as a temporary solution, I take the first name
-                       'image':          container['Image'],    # of the list.
-                       'port_host':      '80',         # the client.container() returns a list of ports
-                       'port_container': '8000'}             # getting the first, is a tmp solution
+               'id':             'None',
+               'cpuUsage':       '0.0',
+               'memUsage':       '0.0',
+               'name':           'None', # the client.container() returns a list of names.
+               'status':         'None',   # as a temporary solution, I take the first name
+               'image':          'None',    # of the list.
+               'port_host':      '0',         # the client.container() returns a list of ports
+               'port_container': '0'}             # getting the first, is a tmp solution
         pi_status['containers'].append(new_container)
+    else:
+        print 'num container %d' % len(client.containers())
+        for container in client.containers():
+            cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $2}\' " % (container['Id'], container['Id'])
+            cpuUsage = system_call(cmd)
+            cpuUsage_str = cpuUsage.replace("\n", "")
+            cpuUsage_str = cpuUsage_str.replace("%", "")
+
+            cmd = "docker stats %s --no-stream | grep %s | awk  \'{print $6}\' " % (container['Id'], container['Id'])
+            memUsage = system_call(cmd)
+            memUsage_str = memUsage.replace("\n", "")
+            memUsage_str = memUsage_str.replace("%", "")
+            #dict_port_host= container['Ports'][0]
+            #p_int=dict_port_host['PublicPort']
+            #port_host_str= str(p_int).replace("\n", "")
+
+            new_container={
+                           'id':             container['Id'],
+                           'cpuUsage':       cpuUsage_str,
+                           'memUsage':       memUsage_str,
+                           'name':           container['Names'][0], # the client.container() returns a list of names.
+                           'status':         container['Status'],   # as a temporary solution, I take the first name
+                           'image':          container['Image'],    # of the list.
+                           'port_host':      '80',         # the client.container() returns a list of ports
+                           'port_container': '8000'}             # getting the first, is a tmp solution
+            pi_status['containers'].append(new_container)
     return (len((pi_status['containers'])))
 
 

@@ -61,7 +61,7 @@ class InfluxDBWriter():
                         "container_name": pidict.get_conName(data, con_index),
                         "container_status": pidict.get_conStatus(data, con_index),
                     },
-                    #"time": "2009-11-10T23:00:00Z",
+
                     "fields": {
                         "cpuLoad":  float(pidict.get_resourceUsage_cpuLoad(data)),
                         "cpuUsage": float(pidict.get_resourceUsage_cpuUsage(data)),
