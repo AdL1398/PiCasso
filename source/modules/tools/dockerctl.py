@@ -29,6 +29,7 @@ python_version  : Python 2.7.12
 
 import time
 import docker
+#Docker py older version
 #from docker import Client
 import os
 import subprocess
@@ -47,6 +48,7 @@ serviceInfo = {
                                   'port_container': 80,
                                   'type': 'singleWebContainer',
                                   'component': ['ubuntu.tar', 'python.tar', 'java.tar']},
+
             'uhttpd.tar':{
                                   'image_name': 'fnichol/uhttpd:latest',
                                   'port_host': 8081,
@@ -54,15 +56,44 @@ serviceInfo = {
                                   'type': 'singleWebContainer',
                                   'component': ['debian.tar', 'python.tar', 'java.tar']},
 
+
             'cloudrone.tar.gz':{
                                   'image_name': 'none',
                                   'port_host': 'none',
                                   'port_container': 'none',
                                   'type': 'DockerCompose',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'rpi-busybox-httpd.tar':{
+                                  'image_name': 'hypriot/rpi-busybox-httpd',
+                                  'port_host': 8001,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'cloudsuite_db_server_PI.tar':{
+                                  'image_name': 'cloudsuite/web-serving:db_server',
+                                  'port_host': 8002,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'cloudsuite_memcached_PI.tar':{
+                                  'image_name': 'cloudsuite/web-serving:memcached',
+                                  'port_host': 8003,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'cloudsuite_webserver_PI.tar':{
+                                  'image_name': 'cloudsuite/web-serving:web_server',
+                                  'port_host': 8004,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
                                   'component': ['webserver.tar', 'dbmysql.tar']}
                }
 
-## For Linux
+## dockerPy older version
 #client = Client(base_url='unix://var/run/docker.sock', version='auto')
 
 client = docker.APIClient(base_url='unix://var/run/docker.sock')

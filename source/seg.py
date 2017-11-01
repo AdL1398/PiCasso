@@ -10,6 +10,8 @@ from modules.Monitoring.monitoringAgent_thread import Monitoring_Agent
 class SEG(object):
     def __init__(self, node_id):
         #self.DS = DataStore()
+        self.script_path = os.path.abspath(__file__)  # i.e. /path/to/dir/foobar.py
+        self.script_dir = os.path.split(self.script_path)[0]  # i.e. /path/to/dir/
         self.seg_ID = node_id
         self.namePrefix_Monitor = '/picasso/monitoring/' + self.seg_ID
         self.namePrefix_SE = '/picasso/service_deployment_push/' + self.seg_ID

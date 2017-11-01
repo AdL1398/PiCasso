@@ -41,7 +41,7 @@ class Decision_Engine_Main(object):
         self.script_path = os.path.abspath(__file__) # i.e. /path/to/dir/foobar.py
         self.script_dir = os.path.split(self.script_path)[0] #i.e. /path/to/dir/
         self.interestLifetime = 12000000
-        self.Datamessage_size = 5000000
+        self.Datamessage_size = 19990000
         folder_name = "SC_repository/"
         rel_path = os.path.join(self.script_dir, folder_name)
         prefix_startDE = "/picasso/start_de/"
@@ -98,20 +98,17 @@ class Decision_Engine_Main(object):
         interest_name_components = interestName.toUri().split("/")
         if "start_de" in interest_name_components:
             #print 'Query database'
-            print 'Call decision engine algorithm'
-            parent_dir = os.path.split(self.script_dir)[0]
-            monitor_path = os.path.join(self.script_dir, parent_dir, 'Monitoring', 'Monitoring_DB')
-            print monitor_path
-            myDE = de(monitor_path)
-            json_lst_dict = myDE.get_lst_of_dictionaries()
-            json_server_Spec = self.json_server_Spec_default
-            node_name = myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
+            #print 'Call decision engine algorithm'
+            #parent_dir = os.path.split(self.script_dir)[0]
+            #monitor_path = os.path.join(self.script_dir, parent_dir, 'Monitoring', 'Monitoring_DB')
+            #print monitor_path
+            #myDE = de(monitor_path)
+            #json_lst_dict = myDE.get_lst_of_dictionaries()
+            #json_server_Spec = self.json_server_Spec_default
+            #node_name = myDE.selectHost_to_deploy_firstInstance(json_lst_dict, json_server_Spec)
+            node_name = interest_name_components[interest_name_components.index("start_de") + 2]
             print 'Selected Host Name %s' %node_name
-            ### User will add this parameter via trigger
-            #service_name = interest_name_components[interest_name_components.index("picasso") + 1]
             service_name = interest_name_components[interest_name_components.index("start_de") + 1]
-            #print interest_name_components.index("picasso")
-            #service_name = 'uhttpd.tar'
             print 'service name %s' % service_name
             print 'Start service deployment'
             deployService = self.prefix_deployService + node_name + '/' + service_name

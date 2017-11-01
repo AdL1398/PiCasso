@@ -41,8 +41,8 @@ class Service_Execution_Main(object):
         self.configPrefix = Name(namePrefix)
         prefix_pullService = "/picasso/pull_Service/"
         self.prefix_pullService = Name(prefix_pullService)
-        self.Datamessage_size = 5000000 #8kB --> Max Size from NDN standard
-        self.window = 4
+        self.Datamessage_size = 2000000 #20MB --> Max Size from modified NDN
+        self.window = 1
         self.producerName = producerName
         self.outstanding = dict()
         self.isDone = False
@@ -56,9 +56,15 @@ class Service_Execution_Main(object):
         self.lastChunk_sent = 0
 
         folder_name = "SEG_repository/"
-        rel_path = os.path.join(self.script_dir, folder_name)
-        if not os.path.exists(rel_path):
-            os.makedirs(rel_path)
+        self.repo_path = os.path.join(self.script_dir, folder_name)
+        if not os.path.exists(self.repo_path):
+            os.makedirs(self.repo_path)
+
+        folder_name = "Migration_cost/"
+        self.timestamp_path = os.path.join(self.script_dir, folder_name)
+        if not os.path.exists(self.timestamp_path):
+            os.makedirs(self.timestamp_path)
+
 
     def run(self):
         try:
@@ -79,6 +85,10 @@ class Service_Execution_Main(object):
 
     def onInterest_pushService(self, prefix, interest, face, interestFilterId, filter):
         interestName = interest.getName()
+        ### Delete image_file in SEG_Repe. This is just for migration cost experiment.
+        delete_service_command = 'rm ' + self.repo_path + '*'
+        os.system(delete_service_command)
+
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
         if "service_deployment_push" in interest_name_components:
@@ -97,6 +107,9 @@ class Service_Execution_Main(object):
                         prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
                         print 'Sending Interest message: %s' % prefix_pullImage
                         self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
+                        filename = image_fileName + '.txt'
+                        self.StartTimeStamp_MigrationTime(filename)
+
                     elif deployment_status == 'done':
                         print 'Service:%s is successfully deployed' %image_fileName
                         self.num_deployedContainer += 1
@@ -115,6 +128,8 @@ class Service_Execution_Main(object):
                         prefix_pullImage = Name("/picasso/service_deployment_pull/" + image_fileName)
                         print 'Sending Interest message: %s' % prefix_pullImage
                         self._sendNextInterest(prefix_pullImage, self.interestLifetime, 'pull')
+                        timestamp_file = image_fileName + '.txt'
+                        self.StartTimeStamp_MigrationTime(timestamp_file)
                 else:
                     print 'Execution method is not yet implemented'
 
@@ -124,6 +139,7 @@ class Service_Execution_Main(object):
             print "Interest name mismatch"
 
     def onInterest_pullService(self, prefix, interest, face, interestFilterId, filter):
+        ### This function is used in ACM ICN where the SEG receive the trigger message to pull the service
         interestName = interest.getName()
         print "Interest Name: %s" %interestName
         interest_name_components = interestName.toUri().split("/")
@@ -181,6 +197,8 @@ class Service_Execution_Main(object):
                 self.UpdatingReceivedChunks(dataSegmentNum)
 
             if self.request_SubsequenceDataChunk(abs_path, fileName, data, self.window) == True:
+                timestamp_file = fileName + '.txt'
+                self.StopTimeStamp_MigrationTime(timestamp_file )
                 print 'Load image and run service'
                 if dockerctl.has_ServiceInfo(fileName) == True:
                     print 'Has description for service deployment'
@@ -271,3 +289,21 @@ class Service_Execution_Main(object):
     def UpdatingReceivedChunks(self, chunkID):
         self.receivedContentChunk[chunkID] = 1
         print self.receivedContentChunk
+
+    def StartTimeStamp_MigrationTime (self, filename):
+        outputfile_path = os.path.join(self.timestamp_path,filename)
+        if os.path.exists(outputfile_path) == True:
+            print 'timestamp file is already existed'
+        else:
+            print 'create output file'
+            open(outputfile_path, 'a').close()
+
+        file = open(outputfile_path, 'a')
+        file.write('Start:  ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.close()
+
+    def StopTimeStamp_MigrationTime (self, filename):
+        outputfile_path = os.path.join(self.timestamp_path, filename)
+        file = open(outputfile_path, 'a')
+        file.write('Finish: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.close()

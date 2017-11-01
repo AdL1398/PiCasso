@@ -32,34 +32,46 @@ class ServiceManager(object):
         self.namePrefix1 = '/picasso/monitoring/SEG_1/'
         self.namePrefix2 = '/picasso/monitoring/SEG_2/'
         self.namePrefix3 = '/picasso/monitoring/SEG_3/'
+        self.namePrefix4 = '/picasso/monitoring/SEG_4/'
+        self.namePrefix5 = '/picasso/monitoring/SEG_5/'
+        self.namePrefix6 = '/picasso/monitoring/SEG_6/'
         self.namePrefix_DE = '/picasso/service_deployment_pull/'
-        self.monitoring_frequency = 10
+        self.monitoring_frequency = 30
 
     def run(self):
         try:
             #instantiate DB here
             print 'Instantiate monitoring DB'
-            os.system("docker rm -f $(docker ps -a -q)")
-            os.system("docker run -p 8083:8083 -p 8086:8086 -d -v /home/adisorn/influxdb:/var/lib/influxdb --name influxdb tutum/influxdb")
-            #instantiate Grafana
-            os.system("docker run -d -p 3000:3000 --link influxdb --name grafana grafana/grafana")
+            # os.system("docker rm -f $(docker ps -a -q)")
+            # os.system("docker run -p 8083:8083 -p 8086:8086 -d -v /home/picasso/influxdb:/var/lib/influxdb --name influxdb tutum/influxdb")
+            # #instantiate Grafana
+            # os.system("docker run -d -p 3000:3000 --link influxdb --name grafana grafana/grafana")
             #Create Thread
             stopFlag = Event()
             print 'Start Monitoring Manager'
-            #SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
-            #SEG1_monitoring.start()
-
-            SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
-            SEG2_monitoring.start()
-
-            #SEG3_monitoring = MonitoringThread_Manager(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
-            #SEG3_monitoring.start()
+            # SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
+            # SEG1_monitoring.start()
+            #
+            # SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
+            # SEG2_monitoring.start()
+            #
+            # SEG3_monitoring = Monitoring_Manager(3, "Monitoring-Thread-3", 1, self.namePrefix3, stopFlag, self.monitoring_frequency)
+            # SEG3_monitoring.start()
+            #
+            # SEG4_monitoring = Monitoring_Manager(4, "Monitoring-Thread-4", 1, self.namePrefix4, stopFlag, self.monitoring_frequency)
+            # SEG4_monitoring.start()
+            #
+            # SEG5_monitoring = Monitoring_Manager(5, "Monitoring-Thread-5", 1, self.namePrefix5, stopFlag, self.monitoring_frequency)
+            # SEG5_monitoring.start()
+            #
+            # SEG6_monitoring = Monitoring_Manager(6, "Monitoring-Thread-6", 1, self.namePrefix6, stopFlag, self.monitoring_frequency)
+            # SEG6_monitoring.start()
 
             # print 'Start Decision Engine'
-            DE = Decision_Engine(4, "DecisionEngine-Thread", self.namePrefix_DE)
+            DE = Decision_Engine(7, "DecisionEngine-Thread", self.namePrefix_DE)
             DE.start()
 
-            #ServiceRepo = Service_Repo(5, "ServiceRepo-Thread", 2200)
+            #ServiceRepo = Service_Repo(8, "ServiceRepo-Thread", 2200)
             #ServiceRepo.start()
 
         except RuntimeError as e:
