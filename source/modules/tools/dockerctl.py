@@ -55,20 +55,11 @@ serviceInfo = {
                                   'port_container': 80,
                                   'type': 'singleWebContainer',
                                   'component': ['debian.tar', 'python.tar', 'java.tar']},
-
-
             'cloudrone.tar.gz':{
                                   'image_name': 'none',
                                   'port_host': 'none',
                                   'port_container': 'none',
                                   'type': 'DockerCompose',
-                                  'component': ['webserver.tar', 'dbmysql.tar']},
-
-            'rpi-busybox-httpd.tar':{
-                                  'image_name': 'hypriot/rpi-busybox-httpd',
-                                  'port_host': 8001,
-                                  'port_container': 80,
-                                  'type': 'singleWebContainer',
                                   'component': ['webserver.tar', 'dbmysql.tar']},
 
             'cloudsuite_db_server_PI.tar':{
@@ -88,6 +79,26 @@ serviceInfo = {
             'cloudsuite_webserver_PI.tar':{
                                   'image_name': 'cloudsuite/web-serving:web_server',
                                   'port_host': 8004,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'rpi_busybox_httpd.tar':{
+                                  'image_name': 'hypriot/rpi-busybox-httpd',
+                                  'port_host': 8005,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+            'rpi_nano_httpd.tar':{
+                                  'image_name': 'hypriot/rpi-nano-httpd',
+                                  'port_host': 8006,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+
+            'armbuild_debian.tar':{
+                                  'image_name': 'armbuild/debian',
+                                  'port_host': 8007,
                                   'port_container': 80,
                                   'type': 'singleWebContainer',
                                   'component': ['webserver.tar', 'dbmysql.tar']}

@@ -40,26 +40,40 @@ class trigger(object):
             # send Interest message to retrieve data
             #self.sendNextInterest(self.prefix_serviceMigration)
             print 'Available services'
-            print '   (1) cloudsuite_db_server_PI.tar'
-            print '   (2) cloudsuite_memcached_PI.tar'
-            print '   (3) cloudsuite_webserver_PI.tar'
-            print '   (4) rpi-busybox-httpd.tar'
+            print '   (1) cloudsuite_webserver_PI.tar  --- 495 MB'
+            print '   (2) cloudsuite_db_server_PI.tar  --- 430 MB'
+            print '   (3) cloudsuite_memcached_PI.tar  --- 366 MB'
+            print '   (4) armbuild_debian.tar          --- 145 MB'
+            print '   (5) rpi_busy_httpd.tar           --- 2.2 MB'
+            print '   (6) rpi_nano_httpd.tar           --- 110 kB'
+
             input_service = raw_input('Choose service to be deployed (type number, e.g., 1): ')
-            print 'Select Nodes'
             input_node = raw_input('Select node to migrate service (e.g., SEG_1): ')
 
             if input_service == '1':
-                print 'Start deploy cloudsuite db server'
-                service_name = 'cloudsuite_db_server_PI.tar'
-            elif input_service == '2':
-                print 'Start deploy Start deploy cloudsuite memcached server'
-                service_name = 'cloudsuite_memcached_PI.tar'
-            elif input_service == '3':
                 print 'Start deploy cloudsuite web server'
                 service_name = 'cloudsuite_webserver_PI.tar'
+
+            elif input_service == '2':
+                print 'Start deploy cloudsuite db server'
+                service_name = 'cloudsuite_db_server_PI.tar'
+
+            elif input_service == '3':
+                print 'Start deploy Start deploy cloudsuite memcached server'
+                service_name = 'cloudsuite_memcached_PI.tar'
+
             elif input_service == '4':
-                print 'Start deploy busybox'
-                service_name = 'rpi-busybox-httpd.tar'
+                print 'Start deploy debian'
+                service_name = 'armbuild_debian.tar'
+
+            elif input_service == '5':
+                print 'Start deploy busybox-httpd'
+                service_name = 'rpi_busy_httpd.tar'
+
+            elif input_service == '6':
+                print 'Start deploy nano-httpd'
+                service_name = 'rpi_nano_httpd.tar'
+
             else:
                 print 'Chosen service is not available'
 
