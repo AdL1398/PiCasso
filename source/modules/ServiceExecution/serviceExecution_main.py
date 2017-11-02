@@ -239,6 +239,8 @@ class Service_Execution_Main(object):
         payload = data.getContent()
         dataName = data.getName()
         dataName_size = dataName.size()
+        timestamp_file = fileName + '.txt'
+        self.StartExtraction_TimeStamp(timestamp_file)
         print "Extracting Data message name: ", dataName.toUri()
         if not os.path.exists(path):
                 os.makedirs(path)
@@ -248,6 +250,7 @@ class Service_Execution_Main(object):
         try:
             dataSegmentNum = (dataName.get(dataName_size - 1)).toSegment()
             lastSegmentNum = (data.getMetaInfo().getFinalBlockId()).toNumber()
+            self.FinishExtraction_TimeStamp(timestamp_file)
 
             if dataSegmentNum == self.lastChunk_window:
                 print 'Send Interest of next window frame'
@@ -263,6 +266,7 @@ class Service_Execution_Main(object):
                     interestName = dataName.getSubName(0, dataName_size - 1)
                     interestName = interestName.appendSegment(chunkID)
                     self._sendNextInterest(interestName, self.interestLifetime, 'pull')
+
 
             else:
                 print 'Already sent window frame, Waiting for Data message'
@@ -300,6 +304,18 @@ class Service_Execution_Main(object):
 
         file = open(outputfile_path, 'a')
         file.write('Start:  ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.close()
+
+    def StartExtraction_TimeStamp(self, filename):
+        outputfile_path = os.path.join(self.timestamp_path, filename)
+        file = open(outputfile_path, 'a')
+        file.write('Extracting_Start: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.close()
+
+    def FinishExtraction_TimeStamp(self, filename):
+        outputfile_path = os.path.join(self.timestamp_path, filename)
+        file = open(outputfile_path, 'a')
+        file.write('Extracting_End: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
         file.close()
 
     def StopTimeStamp_MigrationTime (self, filename):

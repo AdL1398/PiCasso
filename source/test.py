@@ -100,8 +100,9 @@ script_dir = os.path.split(script_path)[0] #i.e. /path/to/dir/
 filename = 'nginx.tar.txt'
 outputfile_path = os.path.join(script_dir, filename)
 
-print time.strftime("%a, %d %b %Y %X +0000", time.gmtime())
-
+#print time.strftime("%a, %d %b %Y %X +0000", time.gmtime())
+print time.ctime()
+print time.time()
 if os.path.exists(outputfile_path) == True:
     print 'output file is already existed'
 else:

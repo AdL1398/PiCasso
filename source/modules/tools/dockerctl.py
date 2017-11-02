@@ -83,14 +83,14 @@ serviceInfo = {
                                   'type': 'singleWebContainer',
                                   'component': ['webserver.tar', 'dbmysql.tar']},
 
-            'rpi_busybox_httpd.tar':{
-                                  'image_name': 'hypriot/rpi-busybox-httpd',
-                                  'port_host': 8005,
+            'rpi_nano_httpd.tar':{
+                                  'image_name': 'hypriot/rpi-nano-httpd',
+                                  'port_host': 8006,
                                   'port_container': 80,
                                   'type': 'singleWebContainer',
                                   'component': ['webserver.tar', 'dbmysql.tar']},
-            'rpi_nano_httpd.tar':{
-                                  'image_name': 'hypriot/rpi-nano-httpd',
+            'rpi_busybox_httpd.tar':{
+                                  'image_name': 'hypriot/rpi-busybox-httpd',
                                   'port_host': 8006,
                                   'port_container': 80,
                                   'type': 'singleWebContainer',

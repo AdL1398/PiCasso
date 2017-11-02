@@ -44,7 +44,7 @@ class trigger(object):
             print '   (2) cloudsuite_db_server_PI.tar  --- 430 MB'
             print '   (3) cloudsuite_memcached_PI.tar  --- 366 MB'
             print '   (4) armbuild_debian.tar          --- 145 MB'
-            print '   (5) rpi_busy_httpd.tar           --- 2.2 MB'
+            print '   (5) rpi_busybox_httpd.tar        --- 2.2 MB'
             print '   (6) rpi_nano_httpd.tar           --- 110 kB'
 
             input_service = raw_input('Choose service to be deployed (type number, e.g., 1): ')
@@ -68,7 +68,7 @@ class trigger(object):
 
             elif input_service == '5':
                 print 'Start deploy busybox-httpd'
-                service_name = 'rpi_busy_httpd.tar'
+                service_name = 'rpi_busybox_httpd.tar'
 
             elif input_service == '6':
                 print 'Start deploy nano-httpd'
