@@ -111,8 +111,8 @@ else:
 
 file = open(outputfile_path, 'a')
 
-file.write('Start:  ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime())+'\n')
-file.write('Finish: '+ time.strftime("%a, %d %b %Y %X +0000", time.gmtime())+'\n')
+file.write('Start:  ' + time.ctime() +'\n')
+file.write('Finish: '+ str(time.time()) +'\n')
 file.close()
 
 

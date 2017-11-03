@@ -303,23 +303,26 @@ class Service_Execution_Main(object):
             open(outputfile_path, 'a').close()
 
         file = open(outputfile_path, 'a')
-        file.write('Start:  ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        #file.write('Start Migration:  ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.write('Service Migration Start:  ' + time.ctime() + '\n')
+        file.write('Start:  ' + str(time.time()) + '\n')
         file.close()
 
     def StartExtraction_TimeStamp(self, filename):
         outputfile_path = os.path.join(self.timestamp_path, filename)
         file = open(outputfile_path, 'a')
-        file.write('Extracting_Start: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.write('Extracting_Start: ' + str(time.time()) + '\n')
         file.close()
 
     def FinishExtraction_TimeStamp(self, filename):
         outputfile_path = os.path.join(self.timestamp_path, filename)
         file = open(outputfile_path, 'a')
-        file.write('Extracting_End: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.write('Extracting_End: ' + str(time.time()) + '\n')
         file.close()
 
     def StopTimeStamp_MigrationTime (self, filename):
         outputfile_path = os.path.join(self.timestamp_path, filename)
         file = open(outputfile_path, 'a')
-        file.write('Finish: ' + time.strftime("%a, %d %b %Y %X +0000", time.gmtime()) + '\n')
+        file.write('Service Migration Finish:  ' + time.ctime() + '\n')
+        file.write('Finish: ' + str(time.time()) + '\n')
         file.close()
