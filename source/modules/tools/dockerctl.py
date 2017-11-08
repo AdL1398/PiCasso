@@ -101,7 +101,20 @@ serviceInfo = {
                                   'port_host': 8007,
                                   'port_container': 80,
                                   'type': 'singleWebContainer',
-                                  'component': ['webserver.tar', 'dbmysql.tar']}
+                                  'component': ['webserver.tar', 'dbmysql.tar']},
+            'alpine_armhf_nginx.tar':{
+                                  'image_name': 'forumi0721alpinearmhf/alpine-armhf-nginx',
+                                  'port_host': 8008,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'nginx.tar']},
+
+            'armhf_alpine.tar':{
+                                  'image_name': 'armhf/alpine ',
+                                  'port_host': 8009,
+                                  'port_container': 80,
+                                  'type': 'singleWebContainer',
+                                  'component': ['webserver.tar', 'nginx.tar']}
                }
 
 ## dockerPy older version

@@ -40,12 +40,14 @@ class trigger(object):
             # send Interest message to retrieve data
             #self.sendNextInterest(self.prefix_serviceMigration)
             print 'Available services'
-            print '   (1) cloudsuite_webserver_PI.tar  --- 495 MB'
-            print '   (2) cloudsuite_db_server_PI.tar  --- 430 MB'
-            print '   (3) cloudsuite_memcached_PI.tar  --- 366 MB'
-            print '   (4) armbuild_debian.tar          --- 145 MB'
-            print '   (5) rpi_busybox_httpd.tar        --- 2.2 MB'
-            print '   (6) rpi_nano_httpd.tar           --- 110 kB'
+            print '   (1) cloudsuite_webserver_PI.tar  --- 495   MB'
+            print '   (2) cloudsuite_db_server_PI.tar  --- 430   MB'
+            print '   (3) cloudsuite_memcached_PI.tar  --- 366   MB'
+            print '   (4) armbuild_debian.tar          --- 145   MB'
+            print '   (5) alpine_armhf_nginx.tar       --- 14.95 MB'
+            print '   (6) armhf_alpine.tar             --- 3.85  MB'
+            print '   (7) rpi_busybox_httpd.tar        --- 2.2   MB'
+            print '   (8) rpi_nano_httpd.tar           --- 110   kB'
 
             input_service = raw_input('Choose service to be deployed (type number, e.g., 1): ')
             input_node = raw_input('Select node to migrate service (e.g., SEG_1): ')
@@ -67,10 +69,18 @@ class trigger(object):
                 service_name = 'armbuild_debian.tar'
 
             elif input_service == '5':
+                print 'Start deploy nginx'
+                service_name = 'alpine_armhf_nginx.tar'
+
+            elif input_service == '6':
+                print 'Start deploy alpine linux'
+                service_name = 'armhf_alpine.tar'
+
+            elif input_service == '7':
                 print 'Start deploy busybox-httpd'
                 service_name = 'rpi_busybox_httpd.tar'
 
-            elif input_service == '6':
+            elif input_service == '8':
                 print 'Start deploy nano-httpd'
                 service_name = 'rpi_nano_httpd.tar'
 

@@ -35,6 +35,10 @@ class ServiceManager(object):
         self.namePrefix4 = '/picasso/monitoring/SEG_4/'
         self.namePrefix5 = '/picasso/monitoring/SEG_5/'
         self.namePrefix6 = '/picasso/monitoring/SEG_6/'
+        self.namePrefix7 = '/picasso/monitoring/SEG_7/'
+        self.namePrefix8 = '/picasso/monitoring/SEG_8/'
+        self.namePrefix9 = '/picasso/monitoring/SEG_9/'
+        self.namePrefix10 = '/picasso/monitoring/SEG_X/'
         self.namePrefix_DE = '/picasso/service_deployment_pull/'
         self.monitoring_frequency = 30
 
@@ -42,16 +46,16 @@ class ServiceManager(object):
         try:
             #instantiate DB here
             print 'Instantiate monitoring DB'
-            # os.system("docker rm -f $(docker ps -a -q)")
-            # os.system("docker run -p 8083:8083 -p 8086:8086 -d -v /home/picasso/influxdb:/var/lib/influxdb --name influxdb tutum/influxdb")
+            os.system("docker rm -f $(docker ps -a -q)")
+            os.system("docker run -p 8083:8083 -p 8086:8086 -d -v /home/picasso/influxdb:/var/lib/influxdb --name influxdb tutum/influxdb")
             # #instantiate Grafana
-            # os.system("docker run -d -p 3000:3000 --link influxdb --name grafana grafana/grafana")
+            os.system("docker run -d -p 3000:3000 --link influxdb --name grafana grafana/grafana")
             #Create Thread
             stopFlag = Event()
             print 'Start Monitoring Manager'
             # SEG1_monitoring = Monitoring_Manager(1, "Monitoring-Thread-1", 1, self.namePrefix1, stopFlag, self.monitoring_frequency)
             # SEG1_monitoring.start()
-            #
+            # #
             # SEG2_monitoring = Monitoring_Manager(2, "Monitoring-Thread-2", 1, self.namePrefix2, stopFlag, self.monitoring_frequency)
             # SEG2_monitoring.start()
             #
@@ -66,9 +70,21 @@ class ServiceManager(object):
             #
             # SEG6_monitoring = Monitoring_Manager(6, "Monitoring-Thread-6", 1, self.namePrefix6, stopFlag, self.monitoring_frequency)
             # SEG6_monitoring.start()
+            #
+            # SEG7_monitoring = Monitoring_Manager(7, "Monitoring-Thread-7", 1, self.namePrefix7, stopFlag, self.monitoring_frequency)
+            # SEG7_monitoring.start()
+            #
+            # SEG8_monitoring = Monitoring_Manager(8, "Monitoring-Thread-8", 1, self.namePrefix8, stopFlag, self.monitoring_frequency)
+            # SEG8_monitoring.start()
+            #
+            # SEG9_monitoring = Monitoring_Manager(9, "Monitoring-Thread-9", 1, self.namePrefix9, stopFlag, self.monitoring_frequency)
+            # SEG9_monitoring.start()
+            #
+            # SEG10_monitoring = Monitoring_Manager(10, "Monitoring-Thread-10", 1, self.namePrefix10, stopFlag, self.monitoring_frequency)
+            # SEG10_monitoring.start()
 
-            # print 'Start Decision Engine'
-            DE = Decision_Engine(7, "DecisionEngine-Thread", self.namePrefix_DE)
+            print 'Start Decision Engine'
+            DE = Decision_Engine(11, "DecisionEngine-Thread", self.namePrefix_DE)
             DE.start()
 
             #ServiceRepo = Service_Repo(8, "ServiceRepo-Thread", 2200)
